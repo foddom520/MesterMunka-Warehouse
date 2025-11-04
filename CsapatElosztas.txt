@@ -1,0 +1,3 @@
+Lantos Péter: Backend és adatbázis
+Rabóczki Gergő: weboldal megírása reacttal
+Fodor Dominik Tamás: Controller
