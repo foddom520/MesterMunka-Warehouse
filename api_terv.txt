@@ -1,0 +1,11 @@
+log in api:
+email, password
+
+felhasználó api:
+keresztnév, vezetéknév, email, jelszó
+
+raktár api:
+azon, fogalalt, határidő
+
+átverés api:
+időpont, raktár azon, árverés azon
