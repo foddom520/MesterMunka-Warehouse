@@ -34,6 +34,19 @@ function RaktarCard() {
         leiras: 'Ez a negyedik raktár leírása.',
         kepUrl: 'https://via.placeholder.com/100x160?text=Raktar4',
       },
+      {
+        id: 5,
+        cim: 'Raktár 5',
+        leiras: 'Ez a negyedik raktár leírása.',
+        kepUrl: 'https://via.placeholder.com/100x160?text=Raktar5',
+      },
+      {
+        id: 6,
+        cim: 'Raktár 6',
+        leiras: 'Ez a negyedik raktár leírása.',
+        kepUrl: 'https://via.placeholder.com/100x160?text=Raktar6',
+      }
+
     ];
 
     setAdatok(betoltottAdatok);
