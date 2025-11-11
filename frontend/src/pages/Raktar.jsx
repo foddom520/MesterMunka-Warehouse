@@ -1,5 +1,5 @@
 import React from "react";
-import RaktarCard from "../components/HomeContent.jsx";
+import RaktarCard from "../components/RaktarContent.jsx";
 
 export default function Raktar() {
   return (
