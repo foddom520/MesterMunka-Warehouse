@@ -1,11 +1,27 @@
-import React from "react";
+import Card from 'react-bootstrap/Card';
 
-
-export default function Home() {
+function Home() {
   return (
     <>
-        <h1>Árverések</h1>
-       
+      <Card>
+        <Card.Img variant="top" src="holder.js/100px180" />
+        <Card.Body>
+          <Card.Text>
+            Itt van az adott árverés adatai
+          </Card.Text>
+        </Card.Body>
+      </Card>
+      <br />
+      <Card>
+        <Card.Body>
+          <Card.Text>
+            Itt van az adott árverés adatai
+          </Card.Text>
+        </Card.Body>
+        <Card.Img variant="bottom" src="holder.js/100px180" />
+      </Card>
     </>
   );
 }
+
+export default Home;
