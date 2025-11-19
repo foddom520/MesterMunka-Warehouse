@@ -8,11 +8,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createPool({
-    host: process.env.DB_Host,
-    user: process.env.DB_User,
-    password: process.env.DB_Password,
-    database: process.env.DB_Name,
-    port: process.env.DB_Port
+    host: process.env.DB_Host || 'localhost',
+    user: process.env.DB_User || 'root',
+    password: process.env.DB_Password || '',
+    database: process.env.DB_Name || 'warehouse',
+    port: process.env.DB_Port || 3307
 });
 //Főoldal
 app.get('/', (req, res) => {
