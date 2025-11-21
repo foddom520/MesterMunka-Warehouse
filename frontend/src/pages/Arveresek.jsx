@@ -3,16 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button, Row, Col, Card } from "react-bootstrap";
 import '../styles/HomePage.css';
 
-const Raktar = () => {
+const Arveresek = () => {
   return (
     <div>
       <div className="text-center py-5 background-Image-custom">
         <Container>
-          <h1>Raktárak</h1>
+          <h1>Árverések</h1>
           <p className="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio maxime suscipit consequuntur, libero placeat aspernatur excepturi repellendus dicta. Reiciendis magnam cupiditate nam saepe similique voluptates, ipsum natus pariatur nulla omnis.</p>
         </Container>
       </div>
     </div>
   );
 }
-export default Raktar;
+export default Arveresek;
