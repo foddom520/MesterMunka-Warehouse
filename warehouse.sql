@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3307
--- Létrehozás ideje: 2025. Dec 02. 09:58
+-- Létrehozás ideje: 2025. Dec 02. 13:44
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -30,10 +30,9 @@ USE `warehouse`;
 --
 
 DROP TABLE IF EXISTS `arveres`;
-CREATE TABLE IF NOT EXISTS `arveres` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idopont` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `arveres` (
+  `id` int(11) NOT NULL,
+  `idopont` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -43,15 +42,13 @@ CREATE TABLE IF NOT EXISTS `arveres` (
 --
 
 DROP TABLE IF EXISTS `felhasznalo`;
-CREATE TABLE IF NOT EXISTS `felhasznalo` (
+CREATE TABLE `felhasznalo` (
   `VNev` varchar(20) NOT NULL,
   `Knev` varchar(20) NOT NULL,
   `FelhasznaloNev` varchar(16) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Jelszo` varchar(255) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email_unq` (`Email`)
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -61,11 +58,10 @@ CREATE TABLE IF NOT EXISTS `felhasznalo` (
 --
 
 DROP TABLE IF EXISTS `fr-koto`;
-CREATE TABLE IF NOT EXISTS `fr-koto` (
+CREATE TABLE `fr-koto` (
   `fid` int(11) NOT NULL,
   `rid` int(11) NOT NULL,
-  KEY `FK-fid-id` (`fid`),
-  KEY `FK-rid-id` (`rid`)
+  `aid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -75,14 +71,64 @@ CREATE TABLE IF NOT EXISTS `fr-koto` (
 --
 
 DROP TABLE IF EXISTS `raktar`;
-CREATE TABLE IF NOT EXISTS `raktar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `raktar` (
+  `id` int(11) NOT NULL,
   `foglalt` tinyint(1) NOT NULL,
-  `hatarido` date NOT NULL,
-  `aid` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK-aid-id` (`aid`)
+  `hatarido` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+--
+-- Indexek a kiírt táblákhoz
+--
+
+--
+-- A tábla indexei `arveres`
+--
+ALTER TABLE `arveres`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- A tábla indexei `felhasznalo`
+--
+ALTER TABLE `felhasznalo`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email_unq` (`Email`);
+
+--
+-- A tábla indexei `fr-koto`
+--
+ALTER TABLE `fr-koto`
+  ADD KEY `FK-fid-id` (`fid`),
+  ADD KEY `FK-rid-id` (`rid`),
+  ADD KEY `FK-aid-id` (`aid`);
+
+--
+-- A tábla indexei `raktar`
+--
+ALTER TABLE `raktar`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- A kiírt táblák AUTO_INCREMENT értéke
+--
+
+--
+-- AUTO_INCREMENT a táblához `arveres`
+--
+ALTER TABLE `arveres`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT a táblához `felhasznalo`
+--
+ALTER TABLE `felhasznalo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT a táblához `raktar`
+--
+ALTER TABLE `raktar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -92,19 +138,19 @@ CREATE TABLE IF NOT EXISTS `raktar` (
 -- Megkötések a táblához `arveres`
 --
 ALTER TABLE `arveres`
-  ADD CONSTRAINT `arveres_ibfk_1` FOREIGN KEY (`id`) REFERENCES `raktar` (`aid`);
+  ADD CONSTRAINT `arveres_ibfk_1` FOREIGN KEY (`id`) REFERENCES `fr-koto` (`aid`) ON UPDATE CASCADE;
 
 --
 -- Megkötések a táblához `felhasznalo`
 --
 ALTER TABLE `felhasznalo`
-  ADD CONSTRAINT `felhasznalo_ibfk_1` FOREIGN KEY (`id`) REFERENCES `fr-koto` (`fid`);
+  ADD CONSTRAINT `felhasznalo_ibfk_1` FOREIGN KEY (`id`) REFERENCES `fr-koto` (`fid`) ON UPDATE CASCADE;
 
 --
 -- Megkötések a táblához `raktar`
 --
 ALTER TABLE `raktar`
-  ADD CONSTRAINT `raktar_ibfk_1` FOREIGN KEY (`id`) REFERENCES `fr-koto` (`rid`);
+  ADD CONSTRAINT `raktar_ibfk_3` FOREIGN KEY (`id`) REFERENCES `fr-koto` (`rid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
