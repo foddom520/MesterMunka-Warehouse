@@ -26,7 +26,7 @@ app.post('/login', async (req, res) => {
     const sql = 'SELECT * FROM felhasznalok WHERE Email = ?';
     db.query(sql, [Email], async (err, results) => {
         if (err) {
-            return res.status(500).send(err);
+            return res.status(500).send("Adatbázis hiba");
         }
         if (results.length === 0) {
             return res.status(401).send('Invalid email or password');
@@ -47,7 +47,7 @@ app.post('/register', async (req, res) => {
     const sql = 'INSERT INTO felhasznalok (Vnev, Knev, FelhasznaloNev, Email, Jelszo) VALUES (?, ?, ?, ?, ?)';
     db.query(sql, [Email, hashedPassword], (err, results) => {
         if (err) {
-            return res.status(500).send(err);
+            return res.status(500).send("Adatbázis hiba");
         }
         res.status(201).send('Sikeres regisztráció');
     });
@@ -58,7 +58,7 @@ app.get('/raktar', (req, res) => {
     const sql = 'SELECT id as "raktár száma", foglalt as "foglaltság", hatarido as "határidő" FROM raktar';
     db.query(sql, (err, results) => {
         if (err) {
-            return res.status(500).send(err);
+            return res.status(500).send("Adatbázis hiba");
         }
         res.json(results);
     }
@@ -70,7 +70,7 @@ app.get('/arveres', (req, res) => {
     const sql = 'select raktar.id, arveres.idopont, arveres.id FROM raktar INNER JOIN arveres ON raktar.aid = arveres.id;';
     db.query(sql, (err, results) => {
         if (err) {
-            return res.status(500).send(err);
+            return res.status(500).send("Adatbázis hiba");
         }
         res.json(results);
     }
