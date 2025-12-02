@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
 require('dotenv').config();
+const argon2 = require('argon2');
 
 const app = express();
 app.use(cors());
@@ -19,14 +20,37 @@ app.get('/', (req, res) => {
     res.send('Főoldal');
 });
 
-//WIP
-app.post('/login', (req, res) => {
-    res.send('Bejelentkezés oldal');
+//Bejelentkezés
+app.post('/login', async (req, res) => {
+    const { Email, Jelszo } = req.body;
+    const sql = 'SELECT * FROM felhasznalok WHERE Email = ?';
+    db.query(sql, [Email], async (err, results) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        if (results.length === 0) {
+            return res.status(401).send('Invalid email or password');
+        }
+        const user = results[0];
+        const validPassword = await argon2.verify(user.Jelszo, Jelszo); 
+        if (!validPassword) {
+            return res.status(401).send('Invalid email or password');
+        }
+        res.status(200).send('Sikeres bejelentkezés');
+    });
 });
 
-//WIP
-app.post('/register', (req, res) => {
-    res.send('Regisztráció oldal');
+//Regisztráció
+app.post('/register', async (req, res) => {
+    const { Vnev, Knev, Felhasznalonev, Email, Jelszo } = req.body;
+    const hashedPassword = await argon2.hash(password);
+    const sql = 'INSERT INTO felhasznalok (Vnev, Knev, FelhasznaloNev, Email, Jelszo) VALUES (?, ?, ?, ?, ?)';
+    db.query(sql, [Email, hashedPassword], (err, results) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.status(201).send('Sikeres regisztráció');
+    });
 });
 
 // A raktárak információit kérdezi le
