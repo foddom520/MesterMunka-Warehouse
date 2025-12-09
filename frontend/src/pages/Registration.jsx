@@ -5,15 +5,19 @@ function Registration() {
   const [vnev, setVnev] = useState("");
   const [knev, setKnev] = useState("");
   const [felhasznalonev, setFelhasznalonev] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   
 
-  email
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Itt jönne a bejelentkezési logika (API hívás, validáció stb.)
+    
     console.log("Vnev:", vnev);
     console.log("Knev:", knev);
     console.log("FelhasznaloNev:", felhasznalonev);
+    console.log("Email:", email);
+    console.log("Password:", password);
   };
 
   return (
@@ -22,7 +26,7 @@ function Registration() {
         <Col>
           <Card style={{ width: "22rem" }} className="shadow">
             <Card.Body>
-              <Card.Title className="text-center mb-4">Log In</Card.Title>
+              <Card.Title className="text-center mb-4">Registration</Card.Title>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicVnev">
                   <Form.Label>Vezeték név</Form.Label>
@@ -56,6 +60,28 @@ function Registration() {
                     required
                   />
                 </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                      <Form.Label>Email cím</Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="Add meg az email címed"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                      <Form.Label>Jelszó</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Add meg a jelszavad"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                  </Form.Group>
               
 
                 <Button variant="dark" type="submit" className="w-100">

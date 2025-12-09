@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Login from './pages/Login.jsx';
+import Registration from './pages/Registration.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Nav.Link href="/Arveresek">Árverések</Nav.Link>
             <Nav.Link href="/Raktar">Raktárak</Nav.Link>
             <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
+            <Nav.Link href="/Registration">Regisztráció</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -29,6 +31,7 @@ function App() {
         <Route path="/Raktar" element={<Raktar />} />
         <Route path='/Arveresek' element={<Arveresek />}/>
         <Route path='/Login' element={<Login />}/>
+        <Route path='/Registration' element={<Registration />}/>
       </Routes>
     </BrowserRouter>
   );
