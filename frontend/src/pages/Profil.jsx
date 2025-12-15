@@ -1,7 +1,15 @@
 import React from "react";
-import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
 
 const Profil = () => {
+  
+  const user = {
+    name: "Gergő",
+    email: "gergo@example.com",
+    phone: "+36 30 123 4567",
+    joined: "2024-05-10",
+  };
+
   return (
     <Container className="mt-4">
       {/* Fejléc */}
@@ -9,11 +17,14 @@ const Profil = () => {
         <Col className="text-center">
           <img
             src="https://via.placeholder.com/120"
-            alt=" saját Profil kép"
+            alt="Profil kép"
             className="rounded-circle mb-2"
           />
-          <h2>saját név</h2>
-          <p className="text-muted">saját email</p>
+          <h2>{user.name}</h2>
+          <p className="text-muted">{user.email}</p>
+          <Button variant="outline-primary" size="sm">
+            Profilkép módosítása
+          </Button>
         </Col>
       </Row>
 
@@ -22,22 +33,14 @@ const Profil = () => {
         <Col md={6}>
           <Card className="mb-3">
             <Card.Header>Saját adatok</Card.Header>
+            <ListGroup variant="flush">
+              <ListGroup.Item><strong>Név:</strong> {user.name}</ListGroup.Item>
+              <ListGroup.Item><strong>Email:</strong> {user.email}</ListGroup.Item>
+              <ListGroup.Item><strong>Telefon:</strong> {user.phone}</ListGroup.Item>
+              <ListGroup.Item><strong>Csatlakozott:</strong> {user.joined}</ListGroup.Item>
+            </ListGroup>
             <Card.Body>
-              <Form>
-                <Form.Group className="mb-3">
-                  <Form.Label>Név</Form.Label>
-                  <Form.Control type="text" defaultValue="Gergő" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" defaultValue="gergo@example.com" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Telefon</Form.Label>
-                  <Form.Control type="text" defaultValue="+36 30 123 4567" />
-                </Form.Group>
-                <Button variant="primary">Mentés</Button>
-              </Form>
+              <Button variant="primary">Adatok szerkesztése</Button>
             </Card.Body>
           </Card>
         </Col>
@@ -46,13 +49,12 @@ const Profil = () => {
         <Col md={6}>
           <Card className="mb-3">
             <Card.Header>Beállítások</Card.Header>
+            <ListGroup variant="flush">
+              <ListGroup.Item><strong>Téma:</strong> Világos mód</ListGroup.Item>
+              <ListGroup.Item><strong>Értesítések:</strong> Email értesítések engedélyezve</ListGroup.Item>
+            </ListGroup>
             <Card.Body>
-              <Form>
-                <Form.Check type="switch" label="Sötét mód" />
-                <Form.Check type="switch" label="Email értesítések" defaultChecked />
-                <Form.Check type="switch" label="Push értesítések" />
-                <Button variant="primary" className="mt-3">Mentés</Button>
-              </Form>
+              <Button variant="primary">Beállítások módosítása</Button>
             </Card.Body>
           </Card>
         </Col>
@@ -65,6 +67,7 @@ const Profil = () => {
             <Card.Header>Biztonság</Card.Header>
             <Card.Body>
               <Button variant="secondary" className="me-2">Jelszó módosítása</Button>
+              <Button variant="secondary">Kétlépcsős azonosítás</Button>
             </Card.Body>
           </Card>
         </Col>
