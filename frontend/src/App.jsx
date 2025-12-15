@@ -9,6 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Login from './pages/Login.jsx';
 import Registration from './pages/Registration.jsx';
+import Profil from './pages/Profil.jsx';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
             <Nav.Link href="/Raktar">Raktárak</Nav.Link>
             <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
             <Nav.Link href="/Registration">Regisztráció</Nav.Link>
+            <Nav.Link href="/Profil">Profil</Nav.Link>
+           
           </Nav>
         </Container>
       </Navbar>
@@ -32,6 +35,7 @@ function App() {
         <Route path='/Arveresek' element={<Arveresek />}/>
         <Route path='/Login' element={<Login />}/>
         <Route path='/Registration' element={<Registration />}/>
+        <Route path='/Profil' element={<Profil />}/>
       </Routes>
     </BrowserRouter>
   );
