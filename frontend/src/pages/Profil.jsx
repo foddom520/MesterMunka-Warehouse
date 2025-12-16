@@ -67,7 +67,7 @@ const Profil = () => {
             <Card.Header>Biztonság</Card.Header>
             <Card.Body>
               <Button variant="secondary" className="me-2">Jelszó módosítása</Button>
-              <Button variant="secondary">Kétlépcsős azonosítás</Button>
+              <Button variant="secondary">Kijelentkezés</Button>
             </Card.Body>
           </Card>
         </Col>
