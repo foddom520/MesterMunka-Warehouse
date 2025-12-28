@@ -1,158 +1,87 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Gép: 127.0.0.1:3307
--- Létrehozás ideje: 2025. Dec 02. 13:44
--- Kiszolgáló verziója: 10.4.28-MariaDB
--- PHP verzió: 8.2.4
+DROP DATABASE IF EXISTS `warehouse`;
+CREATE DATABASE `warehouse`
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_hungarian_ci;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Adatbázis: `warehouse`
---
-CREATE DATABASE IF NOT EXISTS `warehouse` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
 USE `warehouse`;
 
--- --------------------------------------------------------
+SET FOREIGN_KEY_CHECKS = 0;
 
---
--- Tábla szerkezet ehhez a táblához `arveres`
---
-
-DROP TABLE IF EXISTS `arveres`;
-CREATE TABLE `arveres` (
-  `id` int(11) NOT NULL,
-  `idopont` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `felhasznalo`
---
-
-DROP TABLE IF EXISTS `felhasznalo`;
 CREATE TABLE `felhasznalo` (
-  `VNev` varchar(20) NOT NULL,
-  `Knev` varchar(20) NOT NULL,
-  `FelhasznaloNev` varchar(16) NOT NULL,
-  `Email` varchar(255) NOT NULL,
-  `Jelszo` varchar(255) NOT NULL,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `VNev` VARCHAR(20) NOT NULL,
+  `Knev` VARCHAR(20) NOT NULL,
+  `FelhasznaloNev` VARCHAR(16) NOT NULL,
+  `Email` VARCHAR(255) NOT NULL UNIQUE,
+  `Jelszo` VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;
 
--- --------------------------------------------------------
+CREATE TABLE `arveres` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `idopont` DATETIME NOT NULL
+) ENGINE=InnoDB;
 
---
--- Tábla szerkezet ehhez a táblához `fr-koto`
---
-
-DROP TABLE IF EXISTS `fr-koto`;
-CREATE TABLE `fr-koto` (
-  `fid` int(11) NOT NULL,
-  `rid` int(11) NOT NULL,
-  `aid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `raktar`
---
-
-DROP TABLE IF EXISTS `raktar`;
 CREATE TABLE `raktar` (
-  `id` int(11) NOT NULL,
-  `foglalt` tinyint(1) NOT NULL,
-  `hatarido` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `foglalt` TINYINT(1) NOT NULL,
+  `hatarido` DATE NOT NULL
+) ENGINE=InnoDB;
 
---
--- Indexek a kiírt táblákhoz
---
+CREATE TABLE `fr-koto` (
+  `fid` INT NOT NULL,
+  `rid` INT NOT NULL,
+  `aid` INT NOT NULL,
+  PRIMARY KEY (`fid`, `rid`, `aid`),
 
---
--- A tábla indexei `arveres`
---
-ALTER TABLE `arveres`
-  ADD PRIMARY KEY (`id`);
+  CONSTRAINT `FK_frk_felhasznalo`
+    FOREIGN KEY (`fid`) REFERENCES `felhasznalo`(`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
 
---
--- A tábla indexei `felhasznalo`
---
-ALTER TABLE `felhasznalo`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email_unq` (`Email`);
+  CONSTRAINT `FK_frk_raktar`
+    FOREIGN KEY (`rid`) REFERENCES `raktar`(`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
 
---
--- A tábla indexei `fr-koto`
---
-ALTER TABLE `fr-koto`
-  ADD KEY `FK-fid-id` (`fid`),
-  ADD KEY `FK-rid-id` (`rid`),
-  ADD KEY `FK-aid-id` (`aid`);
+  CONSTRAINT `FK_frk_arveres`
+    FOREIGN KEY (`aid`) REFERENCES `arveres`(`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
 
---
--- A tábla indexei `raktar`
---
-ALTER TABLE `raktar`
-  ADD PRIMARY KEY (`id`);
+SET FOREIGN_KEY_CHECKS = 1;
 
---
--- A kiírt táblák AUTO_INCREMENT értéke
---
+INSERT INTO `felhasznalo`
+(`id`, `VNev`, `Knev`, `FelhasznaloNev`, `Email`, `Jelszo`)
+VALUES
+(1, 'Kovács', 'Béla', 'kovacsbela', 'kovacs.bela@email.com', '$2b$10$abc123def456ghi789jkl'),
+(2, 'Szabó', 'Anna', 'szaboanna', 'szabo.anna@email.com', '$2b$10$mno123pqr456stu789vwx'),
+(3, 'Nagy', 'Péter', 'nagypeter', 'nagy.peter@email.com', '$2b$10$yzab123cde456fgh789ijk'),
+(4, 'Kiss', 'Éva', 'kisseva', 'kiss.eva@email.com', '$2b$10$lmn123opq456rst789uvw');
 
---
--- AUTO_INCREMENT a táblához `arveres`
---
-ALTER TABLE `arveres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO `arveres`
+(`id`, `idopont`)
+VALUES
+(1, '2025-11-20 14:00:00'),
+(2, '2025-11-21 10:00:00'),
+(3, '2025-11-22 16:00:00'),
+(4, '2025-11-23 11:00:00'),
+(5, '2025-11-24 09:00:00'),
+(6, '2025-11-25 15:00:00');
 
---
--- AUTO_INCREMENT a táblához `felhasznalo`
---
-ALTER TABLE `felhasznalo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO `raktar`
+(`id`, `foglalt`, `hatarido`)
+VALUES
+(1, 1, '2025-12-31'),
+(2, 0, '2025-11-30'),
+(3, 1, '2025-10-15'),
+(4, 0, '2025-09-20'),
+(5, 1, '2025-08-25'),
+(6, 0, '2025-07-30');
 
---
--- AUTO_INCREMENT a táblához `raktar`
---
-ALTER TABLE `raktar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Megkötések a kiírt táblákhoz
---
-
---
--- Megkötések a táblához `arveres`
---
-ALTER TABLE `arveres`
-  ADD CONSTRAINT `arveres_ibfk_1` FOREIGN KEY (`id`) REFERENCES `fr-koto` (`aid`) ON UPDATE CASCADE;
-
---
--- Megkötések a táblához `felhasznalo`
---
-ALTER TABLE `felhasznalo`
-  ADD CONSTRAINT `felhasznalo_ibfk_1` FOREIGN KEY (`id`) REFERENCES `fr-koto` (`fid`) ON UPDATE CASCADE;
-
---
--- Megkötések a táblához `raktar`
---
-ALTER TABLE `raktar`
-  ADD CONSTRAINT `raktar_ibfk_3` FOREIGN KEY (`id`) REFERENCES `fr-koto` (`rid`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `fr-koto`
+(`fid`, `rid`, `aid`)
+VALUES
+(1, 1, 1),
+(1, 2, 2),
+(2, 3, 3),
+(3, 4, 4),
+(4, 5, 5),
+(2, 6, 6);

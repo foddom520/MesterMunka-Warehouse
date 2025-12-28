@@ -13,7 +13,7 @@ const db = mysql.createPool({
     user: process.env.DB_User || 'root',
     password: process.env.DB_Password || '',
     database: process.env.DB_Name || 'warehouse',
-    port: process.env.DB_Port || 3307
+    port: process.env.DB_Port || 3306
 });
 //Főoldal
 app.get('/', (req, res) => {
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 //Bejelentkezés
 app.post('/login', async (req, res) => {
     const { Email, Jelszo } = req.body;
-    const sql = 'SELECT * FROM felhasznalok WHERE Email = ?';
+    const sql = 'SELECT * FROM felhasznalo WHERE Email = ?';
     db.query(sql, [Email], async (err, results) => {
         if (err) {
             return res.status(500).send("Adatbázis hiba");
@@ -42,16 +42,21 @@ app.post('/login', async (req, res) => {
 
 //Regisztráció
 app.post('/register', async (req, res) => {
-    const { Vnev, Knev, Felhasznalonev, Email, Jelszo } = req.body;
-    const hashedPassword = await argon2.hash(password);
-    const sql = 'INSERT INTO felhasznalok (Vnev, Knev, FelhasznaloNev, Email, Jelszo) VALUES (?, ?, ?, ?, ?)';
-    db.query(sql, [Email, hashedPassword], (err, results) => {
-        if (err) {
-            return res.status(500).send("Adatbázis hiba");
-        }
-        res.status(201).send('Sikeres regisztráció');
-    });
+  const { Vnev, Knev, Felhasznalonev, Email, Jelszo } = req.body;
+
+  const hashedPassword = await argon2.hash(Jelszo);
+
+  const sql = 'INSERT INTO felhasznalo (Vnev, Knev, FelhasznaloNev, Email, Jelszo) VALUES (?, ?, ?, ?, ?)';
+  db.query(sql, [Vnev, Knev, Felhasznalonev, Email, hashedPassword], (err, results) => {
+    if (err) {
+      // Optional but SUPER helpful:
+      console.error("REGISTER DB ERROR:", err);
+      return res.status(500).send("Adatbázis hiba");
+    }
+    res.status(201).send('Sikeres regisztráció');
+  });
 });
+
 
 // A raktárak információit kérdezi le
 app.get('/raktar', (req, res) => {
@@ -67,7 +72,7 @@ app.get('/raktar', (req, res) => {
 
 // Az összes árverést kérdezi le
 app.get('/arveres', (req, res) => {
-    const sql = 'select raktar.id, arveres.idopont, arveres.id FROM raktar INNER JOIN arveres ON raktar.aid = arveres.id;';
+    const sql = 'select raktar.id, arveres.idopont, arveres.id FROM raktar INNER JOIN arveres ON raktar.id = arveres.id;';
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(500).send("Adatbázis hiba");
