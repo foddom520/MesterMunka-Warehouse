@@ -48,38 +48,6 @@ function Login() {
 
   return (
     <>
-     <nav className="navbar navbar-expand-lg navbar-dark bg-dark-custom fixed-top">
-                <Container>
-                  <a className="navbar-brand d-flex align-items-center" href="#">
-                    <FaGavel className="me-2" />
-                    <span className="brand-text">Bid<span className="text-primary">&</span>Lock</span>
-                  </a>
-                  
-                  <div className="search-container">
-                    <FaSearch className="search-icon" />
-                    <input
-                      type="text"
-                      className="search-input"
-                      placeholder="Search auctions..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
-        
-                  <div className="navbar-actions">
-                    <Button variant="outline-light" className="me-2">
-                      <FaBell />
-                    </Button>
-                    <Button variant="primary" className="me-2">
-                      Create Auction
-                    </Button>
-                    <Button variant="light">
-                      <FaUser className="me-1" />
-                      Sign In
-                    </Button>
-                  </div>
-                </Container>
-              </nav>
     <Container className="d-flex justify-content-center align-items-center vh-100">
       <Row>
         <Col>
