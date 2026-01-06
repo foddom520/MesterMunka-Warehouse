@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Button, Card, Row, Col, Alert, Spinner, Badge } from "react-bootstrap";
-import { FaHeart, FaShare, FaClock, FaUsers } from "react-icons/fa";
+import { FaClock, FaUsers, FaTrophy, FaGavel, FaSearch, FaBell, FaUser, FaHeart, FaShare, FaTag } from 'react-icons/fa';
 import backgroundimage from "../kepek/HomePageBackGround.png";
 
 const Arveresek = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const load = async () => {
@@ -74,7 +75,7 @@ const Arveresek = () => {
           </nav>
     <div className="text-center py-5 background-Image-custom">
       <Container>
-        <h1 className="mb-4">Árverések</h1>
+        <h1 className="mb-4" style={{ color: "white"}}>Árverések</h1>
 
         {loading && (
           <div className="d-flex justify-content-center my-4">
@@ -92,7 +93,7 @@ const Arveresek = () => {
           <Row>
             <Col lg={9}>
               {/* Auctions Grid */}
-              <h3 className="mb-4">Active Auctions</h3>
+              <h3 className="mb-4" style={{ color: "white"}}>Active Auctions</h3>
               <Row>
                 {items.map((auction) => (
                   <Col lg={4} md={6} key={auction.arveresId} className="mb-4">
