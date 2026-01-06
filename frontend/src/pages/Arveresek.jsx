@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Button, Card, Row, Col, Alert, Spinner } from "react-bootstrap";
+import { Container, Button, Card, Row, Col, Alert, Spinner, Badge } from "react-bootstrap";
+import { FaHeart, FaShare, FaClock, FaUsers } from "react-icons/fa";
 import backgroundimage from "../kepek/HomePageBackGround.png";
 
 const Arveresek = () => {
@@ -38,6 +39,39 @@ const Arveresek = () => {
   };
 
   return (
+    <>
+     <nav className="navbar navbar-expand-lg navbar-dark bg-dark-custom fixed-top">
+            <Container>
+              <a className="navbar-brand d-flex align-items-center" href="#">
+                <FaGavel className="me-2" />
+                <span className="brand-text">Bid<span className="text-primary">&</span>Lock</span>
+              </a>
+              
+              <div className="search-container">
+                <FaSearch className="search-icon" />
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search auctions..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+    
+              <div className="navbar-actions">
+                <Button variant="outline-light" className="me-2">
+                  <FaBell />
+                </Button>
+                <Button variant="primary" className="me-2">
+                  Create Auction
+                </Button>
+                <Button variant="light">
+                  <FaUser className="me-1" />
+                  Sign In
+                </Button>
+              </div>
+            </Container>
+          </nav>
     <div className="text-center py-5 background-Image-custom">
       <Container>
         <h1 className="mb-4">Árverések</h1>
@@ -54,34 +88,64 @@ const Arveresek = () => {
           <Alert variant="secondary">Nincs megjeleníthető árverés.</Alert>
         )}
 
-        <Row className="g-4 justify-content-center">
-          {items.map((x) => (
-            <Col key={`${x.arveresId}-${x.raktarId}`} xs={12} sm={6} md={4} lg={3}>
-              <Card className="h-100 shadow">
-                <Card.Img variant="top" src={backgroundimage} />
-                <Card.Body className="d-flex flex-column">
-                  <Card.Title>Árverés #{x.arveresId}</Card.Title>
-                  <Card.Text className="text-start">
-                    <div><b>Raktár ID:</b> {x.raktarId}</div>
-                    <div><b>Időpont:</b> {formatDate(x.idopont)}</div>
-                  </Card.Text>
-
-                  <Button
-                    variant="primary"
-                    className="mt-auto"
-                    onClick={() => {
-                      console.log("Open auction:", x.arveresId);
-                    }}
-                  >
-                    Megnyitás
-                  </Button>
-                </Card.Body>
-              </Card>
+        <Container className="my-5">
+          <Row>
+            <Col lg={9}>
+              {/* Auctions Grid */}
+              <h3 className="mb-4">Active Auctions</h3>
+              <Row>
+                {items.map((auction) => (
+                  <Col lg={4} md={6} key={auction.arveresId} className="mb-4">
+                    <Card className="auction-card h-100">
+                      <div className="card-image-container">
+                        <Card.Img variant="top" src={backgroundimage} />
+                        <Button variant="light" className="wishlist-btn">
+                          <FaHeart />
+                        </Button>
+                        <Badge bg="info" className="category-badge">
+                          {auction.category || "N/A"}
+                        </Badge>
+                      </div>
+                      <Card.Body>
+                        <Card.Title className="d-flex justify-content-between">
+                          {auction.title || `Auction #${auction.arveresId}`}
+                          <Button variant="link" className="p-0">
+                            <FaShare />
+                          </Button>
+                        </Card.Title>
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                          <div>
+                            <h5 className="text-primary mb-0">${auction.currentBid || "N/A"}</h5>
+                            <small className="text-muted">Current Bid</small>
+                          </div>
+                          <div className="text-end">
+                            <div className="d-flex align-items-center">
+                              <FaClock className="me-1" />
+                              <span>{formatDate(auction.idopont)}</span>
+                            </div>
+                            <small><FaUsers /> {auction.bidders || 0} bidders</small>
+                          </div>
+                        </div>
+                        <Button 
+                          variant="outline-primary" 
+                          className="w-100"
+                          onClick={() => {
+                            console.log("Open auction:", auction.arveresId);
+                          }}
+                        >
+                          Place Bid
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
             </Col>
-          ))}
-        </Row>
+          </Row>
+        </Container>
       </Container>
     </div>
+    </>
   );
 };
 
