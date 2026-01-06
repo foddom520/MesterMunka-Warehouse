@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Row, Col, Card, Alert, Spinner, Badge } from "react-bootstrap";
+import { Container, Row, Col, Card, Alert, Spinner, Badge, Button} from "react-bootstrap";
+import { FaClock, FaUsers, FaTrophy, FaGavel, FaSearch, FaBell, FaUser, FaHeart, FaShare, FaTag } from 'react-icons/fa';
 import "../styles/HomePage.css";
 
 const Raktar = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
 
   useEffect(() => {
     const load = async () => {
@@ -41,10 +44,11 @@ const Raktar = () => {
   };
 
   return (
+    <>
     <div className="text-center py-5 background-Image-custom">
       <Container>
-        <h1 className="mb-3">Raktárak</h1>
-        <p className="lead">
+        <h1 className="mb-3" style={{ color: "white"}}>Raktárak</h1>
+        <p className="lead" style={{ color: "white"}}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit...
         </p>
 
@@ -88,6 +92,7 @@ const Raktar = () => {
         </Row>
       </Container>
     </div>
+    </>
   );
 };
 

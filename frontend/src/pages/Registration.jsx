@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
+import { FaClock, FaUsers, FaTrophy, FaGavel, FaSearch, FaBell, FaUser, FaHeart, FaShare, FaTag } from 'react-icons/fa';
 
 function Registration() {
   const [vnev, setVnev] = useState("");
@@ -11,6 +12,7 @@ function Registration() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +55,7 @@ function Registration() {
   };
 
   return (
+    <>
     <Container className="d-flex justify-content-center align-items-center vh-100">
       <Row>
         <Col>
@@ -135,6 +138,7 @@ function Registration() {
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
 
