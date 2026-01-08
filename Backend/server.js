@@ -49,7 +49,6 @@ app.post('/register', async (req, res) => {
   const sql = 'INSERT INTO felhasznalo (Vnev, Knev, FelhasznaloNev, Email, Jelszo) VALUES (?, ?, ?, ?, ?)';
   db.query(sql, [Vnev, Knev, Felhasznalonev, Email, hashedPassword], (err, results) => {
     if (err) {
-      // Optional but SUPER helpful:
       console.error("REGISTER DB ERROR:", err);
       return res.status(500).send("Adatbázis hiba");
     }
