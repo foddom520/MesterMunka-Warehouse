@@ -9,13 +9,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import Login from './pages/Login.jsx';
 import Registration from './pages/Registration.jsx';
 import Profil from './pages/Profil.jsx';
-import { FaClock, FaUsers, FaTrophy, FaGavel, FaSearch, FaBell, FaUser, FaHeart, FaShare, FaTag } from 'react-icons/fa';
-import { Container, Row, Col, Card, Button, Modal, Carousel, Badge, ProgressBar } from "react-bootstrap";
+import { FaGavel, FaSearch, FaBell, FaUser } from 'react-icons/fa';
+import { Container, Row, Col,  Button} from "react-bootstrap";
 import './styles/HomePage.css';
 
 function App() {
     const [searchQuery, setSearchQuery] = useState("");
   return (
+    <div>
     <BrowserRouter>
       <Navbar bg="dark" variant="dark">
         {/* 🔹 Top row */}
@@ -49,11 +50,15 @@ function App() {
               <FaUser className="me-1" />
               Sign In
             </Button>
+            <Nav.Link href="/">Főoldal</Nav.Link>
+              <Nav.Link href="/Arveresek">Árverések</Nav.Link>
+              <Nav.Link href="/Raktar">Raktárak</Nav.Link>
+              <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
+              <Nav.Link href="/Registration">Regisztráció</Nav.Link>
+              <Nav.Link href="/Profil">Profil</Nav.Link>
           </div>
         </Container>
-
-        {/* 🔹 Bottom row */}
-        <div className="border-top border-secondary">
+        <div>
           <Container>
             <Nav className="py-2 justify-content-center">
               <Nav.Link href="/">Főoldal</Nav.Link>
@@ -77,6 +82,55 @@ function App() {
         <Route path='/Profil' element={<Profil />}/>
       </Routes>
     </BrowserRouter>
+
+    <footer className="bg-dark-custom text-white py-5 mt-5 footer-custom">
+    <Container>
+      <Row>
+        <Col md={4}>
+          <h5 className="d-flex align-items-center mb-3">
+            <FaGavel className="me-2" />
+            Bid & Lock
+          </h5>
+          <p className="text-light">
+            The premier auction platform for unique items and exclusive deals. 
+            Bid with confidence, lock your wins.
+          </p>
+        </Col>
+        <Col md={2}>
+          <h6>Platform</h6>
+          <ul className="list-unstyled">
+            <li><a href="#" className="text-light">How it Works</a></li>
+            <li><a href="#" className="text-light">Sell Items</a></li>
+          </ul>
+        </Col>
+        <Col md={3}>
+          <h6>Support</h6>
+          <ul className="list-unstyled">
+            <li><a href="#" className="text-light">Help Center</a></li>
+            <li><a href="#" className="text-light">Terms of Service</a></li>
+            <li><a href="#" className="text-light">Privacy Policy</a></li>
+          </ul>
+        </Col>
+        <Col md={3}>
+          <h6>Stay Updated</h6>
+          <p className="text-light">Subscribe to our newsletter</p>
+          <div className="input-group">
+            <input 
+              type="email" 
+              className="form-control" 
+              placeholder="Enter email" 
+            />
+            <Button variant="primary">Subscribe</Button>
+          </div>
+        </Col>
+      </Row>
+      <hr className="bg-light my-4" />
+      <div className="text-center">
+        <p className="mb-0">&copy; 2024 Bid & Lock. All rights reserved.</p>
+      </div>
+    </Container>
+    </footer>
+</div>
   );
 }
 
