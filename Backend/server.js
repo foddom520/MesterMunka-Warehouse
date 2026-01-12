@@ -42,12 +42,12 @@ app.post('/login', async (req, res) => {
 
 //Regisztráció
 app.post('/register', async (req, res) => {
-  const { Vnev, Knev, Felhasznalonev, Email, Jelszo } = req.body;
+  const {Felhasznalonev, Email, Jelszo } = req.body;
 
   const hashedPassword = await argon2.hash(Jelszo);
 
-  const sql = 'INSERT INTO felhasznalo (Vnev, Knev, FelhasznaloNev, Email, Jelszo) VALUES (?, ?, ?, ?, ?)';
-  db.query(sql, [Vnev, Knev, Felhasznalonev, Email, hashedPassword], (err, results) => {
+  const sql = 'INSERT INTO felhasznalo (FelhasznaloNev, Email, Jelszo) VALUES (?, ?, ?)';
+  db.query(sql, [Felhasznalonev, Email, hashedPassword], (err, results) => {
     if (err) {
       console.error("REGISTER DB ERROR:", err);
       return res.status(500).send("Adatbázis hiba");

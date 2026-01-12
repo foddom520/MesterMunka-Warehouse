@@ -65,29 +65,7 @@ function Registration() {
 
               {error && <Alert variant="danger">{error}</Alert>}
               {success && <Alert variant="success">{success}</Alert>}
-
               <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formVnev">
-                  <Form.Label>Vezeték név</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Add meg a vezeték neved"
-                    value={vnev}
-                    onChange={(e) => setVnev(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formKnev">
-                  <Form.Label>Kereszt név</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Add meg a kereszt neved"
-                    value={knev}
-                    onChange={(e) => setKnev(e.target.value)}
-                    required
-                  />
-                </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formFelhasznaloNev">
                   <Form.Label>Felhasználónév</Form.Label>
@@ -111,8 +89,20 @@ function Registration() {
                   />
                 </Form.Group>
 
+                {/* összehasonlítás megcsinálása */}
                 <Form.Group className="mb-3" controlId="formPassword">
                   <Form.Label>Jelszó</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Add meg a jelszavad"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formPasswordConfirm ">
+                  <Form.Label>Jelszó megerősítése</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Add meg a jelszavad"

@@ -9,12 +9,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import Login from './pages/Login.jsx';
 import Registration from './pages/Registration.jsx';
 import Profil from './pages/Profil.jsx';
-import { FaGavel, FaSearch, FaBell, FaUser } from 'react-icons/fa';
+import { FaGavel} from 'react-icons/fa';
 import { Container, Row, Col,  Button} from "react-bootstrap";
 import './styles/HomePage.css';
+import Balsavgeci from './pages/testlelek.jsx';
 
 function App() {
-    const [searchQuery, setSearchQuery] = useState("");
   return (
     <div>
     <BrowserRouter>
@@ -28,34 +28,10 @@ function App() {
             </span>
           </a>
 
-          <div className="search-container mx-3 flex-grow-1">
-            <FaSearch className="search-icon" />
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search auctions..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-
           <div className="navbar-actions d-flex align-items-center">
-            <Button variant="outline-light" className="me-2">
+            {/* <Button variant="outline-light" className="me-2">
               <FaBell />
-            </Button>
-            <Button variant="primary" className="me-2">
-              Create Auction
-            </Button>
-            <Button variant="light">
-              <FaUser className="me-1" />
-              Sign In
-            </Button>
-            <Nav.Link href="/">Főoldal</Nav.Link>
-              <Nav.Link href="/Arveresek">Árverések</Nav.Link>
-              <Nav.Link href="/Raktar">Raktárak</Nav.Link>
-              <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
-              <Nav.Link href="/Registration">Regisztráció</Nav.Link>
-              <Nav.Link href="/Profil">Profil</Nav.Link>
+            </Button> */} {/* make it so it show up only after logging in. */}
           </div>
         </Container>
         <div>
@@ -67,11 +43,11 @@ function App() {
               <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
               <Nav.Link href="/Registration">Regisztráció</Nav.Link>
               <Nav.Link href="/Profil">Profil</Nav.Link>
+              <Nav.Link href="/testelek">Test Elek</Nav.Link> {/* Added new link for testelek */}
             </Nav>
           </Container>
         </div>
       </Navbar>
-
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -80,6 +56,7 @@ function App() {
         <Route path='/Login' element={<Login />}/>
         <Route path='/Registration' element={<Registration />}/>
         <Route path='/Profil' element={<Profil />}/>
+        <Route path="/testelek" element={<Balsavgeci />} /> {/* Corrected component name casing */}
       </Routes>
     </BrowserRouter>
 
