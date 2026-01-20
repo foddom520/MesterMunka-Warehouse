@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3307
--- Létrehozás ideje: 2026. Jan 15. 12:00
+-- Létrehozás ideje: 2026. Jan 20. 09:11
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -30,11 +30,10 @@ USE `warehouse`;
 --
 
 DROP TABLE IF EXISTS `arveres`;
-CREATE TABLE IF NOT EXISTS `arveres` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idopont` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+CREATE TABLE `arveres` (
+  `id` int(11) NOT NULL,
+  `idopont` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `arveres`
@@ -55,16 +54,13 @@ INSERT INTO `arveres` (`id`, `idopont`) VALUES
 --
 
 DROP TABLE IF EXISTS `felhasznalo`;
-CREATE TABLE IF NOT EXISTS `felhasznalo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `felhasznalo` (
+  `id` int(11) NOT NULL,
   `FelhasznaloNev` varchar(16) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Jelszo` varchar(255) NOT NULL,
-  `PFP` varchar(512) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `Email` (`Email`),
-  UNIQUE KEY `felhasznalo` (`FelhasznaloNev`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+  `PFP` varchar(512) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `felhasznalo`
@@ -83,11 +79,9 @@ INSERT INTO `felhasznalo` (`id`, `FelhasznaloNev`, `Email`, `Jelszo`, `PFP`) VAL
 --
 
 DROP TABLE IF EXISTS `felhasznalo_szerep`;
-CREATE TABLE IF NOT EXISTS `felhasznalo_szerep` (
+CREATE TABLE `felhasznalo_szerep` (
   `fid` int(11) NOT NULL,
-  `szerep_id` int(11) NOT NULL,
-  KEY `fid` (`fid`),
-  KEY `szerep_id` (`szerep_id`)
+  `szerep_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -97,13 +91,10 @@ CREATE TABLE IF NOT EXISTS `felhasznalo_szerep` (
 --
 
 DROP TABLE IF EXISTS `fr-koto`;
-CREATE TABLE IF NOT EXISTS `fr-koto` (
+CREATE TABLE `fr-koto` (
   `fid` int(11) NOT NULL,
   `rid` int(11) NOT NULL,
-  `aid` int(11) NOT NULL,
-  PRIMARY KEY (`fid`,`rid`,`aid`),
-  KEY `FK_frk_raktar` (`rid`),
-  KEY `FK_frk_arveres` (`aid`)
+  `aid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
@@ -125,12 +116,11 @@ INSERT INTO `fr-koto` (`fid`, `rid`, `aid`) VALUES
 --
 
 DROP TABLE IF EXISTS `raktar`;
-CREATE TABLE IF NOT EXISTS `raktar` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `raktar` (
+  `id` int(11) NOT NULL,
   `foglalt` tinyint(1) NOT NULL,
-  `hatarido` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+  `hatarido` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `raktar`
@@ -151,11 +141,77 @@ INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`) VALUES
 --
 
 DROP TABLE IF EXISTS `szerep_lista`;
-CREATE TABLE IF NOT EXISTS `szerep_lista` (
+CREATE TABLE `szerep_lista` (
   `id` int(11) NOT NULL,
-  `szerep` varchar(16) NOT NULL,
-  PRIMARY KEY (`id`)
+  `szerep` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+--
+-- Indexek a kiírt táblákhoz
+--
+
+--
+-- A tábla indexei `arveres`
+--
+ALTER TABLE `arveres`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- A tábla indexei `felhasznalo`
+--
+ALTER TABLE `felhasznalo`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD UNIQUE KEY `felhasznalo` (`FelhasznaloNev`);
+
+--
+-- A tábla indexei `felhasznalo_szerep`
+--
+ALTER TABLE `felhasznalo_szerep`
+  ADD KEY `fid` (`fid`),
+  ADD KEY `szerep_id` (`szerep_id`);
+
+--
+-- A tábla indexei `fr-koto`
+--
+ALTER TABLE `fr-koto`
+  ADD PRIMARY KEY (`fid`,`rid`,`aid`),
+  ADD KEY `FK_frk_raktar` (`rid`),
+  ADD KEY `FK_frk_arveres` (`aid`);
+
+--
+-- A tábla indexei `raktar`
+--
+ALTER TABLE `raktar`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- A tábla indexei `szerep_lista`
+--
+ALTER TABLE `szerep_lista`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- A kiírt táblák AUTO_INCREMENT értéke
+--
+
+--
+-- AUTO_INCREMENT a táblához `arveres`
+--
+ALTER TABLE `arveres`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT a táblához `felhasznalo`
+--
+ALTER TABLE `felhasznalo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT a táblához `raktar`
+--
+ALTER TABLE `raktar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Megkötések a kiírt táblákhoz
