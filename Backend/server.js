@@ -15,7 +15,7 @@ const db = mysql.createPool({
     database: process.env.DB_Name || 'warehouse',
     port: process.env.DB_Port || 3307
 });
-//Főoldal
+//Főoldal *törölni*
 app.get('/', (req, res) => {
     res.send('Főoldal');
 });
