@@ -13,7 +13,7 @@ const db = mysql.createPool({
     user: process.env.DB_User || 'root',
     password: process.env.DB_Password || '',
     database: process.env.DB_Name || 'warehouse',
-    port: process.env.DB_Port || 3307
+    port: process.env.DB_Port || 3307 || 3306
 });
 //Főoldal
 app.get('/', (req, res) => {
