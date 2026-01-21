@@ -158,6 +158,15 @@ app.get('/arveres', (req, res) => {
     );
 });
 
+//Jelentkezés árverésre
+
+
+
+//
+
+
+
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
