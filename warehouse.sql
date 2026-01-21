@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3307
--- Létrehozás ideje: 2026. Jan 21. 10:32
+-- Létrehozás ideje: 2026. Jan 21. 11:12
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -33,22 +33,20 @@ DROP TABLE IF EXISTS `arveres`;
 CREATE TABLE `arveres` (
   `id` int(11) NOT NULL,
   `idopont` datetime NOT NULL,
-  `Iranyitoszam` varchar(64) NOT NULL,
-  `Utca` varchar(64) NOT NULL,
-  `Hazszam` int(11) NOT NULL
+  `JelentkezID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `arveres`
 --
 
-INSERT INTO `arveres` (`id`, `idopont`, `Iranyitoszam`, `Utca`, `Hazszam`) VALUES
-(1, '2025-11-20 14:00:00', '', '', 0),
-(2, '2025-11-21 10:00:00', '', '', 0),
-(3, '2025-11-22 16:00:00', '', '', 0),
-(4, '2025-11-23 11:00:00', '', '', 0),
-(5, '2025-11-24 09:00:00', '', '', 0),
-(6, '2025-11-25 15:00:00', '', '', 0);
+INSERT INTO `arveres` (`id`, `idopont`, `JelentkezID`) VALUES
+(1, '2025-11-20 14:00:00', 0),
+(2, '2025-11-21 10:00:00', 0),
+(3, '2025-11-22 16:00:00', 0),
+(4, '2025-11-23 11:00:00', 0),
+(5, '2025-11-24 09:00:00', 0),
+(6, '2025-11-25 15:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -111,20 +109,23 @@ DROP TABLE IF EXISTS `raktar`;
 CREATE TABLE `raktar` (
   `id` int(11) NOT NULL,
   `foglalt` tinyint(1) NOT NULL,
-  `hatarido` date NOT NULL
+  `hatarido` date NOT NULL,
+  `Iranyitoszam` int(11) NOT NULL,
+  `Hazszam` int(11) NOT NULL,
+  `Utca` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `raktar`
 --
 
-INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`) VALUES
-(1, 1, '2025-12-31'),
-(2, 0, '2025-11-30'),
-(3, 1, '2025-10-15'),
-(4, 0, '2025-09-20'),
-(5, 1, '2025-08-25'),
-(6, 0, '2025-07-30');
+INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`, `Iranyitoszam`, `Hazszam`, `Utca`) VALUES
+(1, 1, '2025-12-31', 0, 0, ''),
+(2, 0, '2025-11-30', 0, 0, ''),
+(3, 1, '2025-10-15', 0, 0, ''),
+(4, 0, '2025-09-20', 0, 0, ''),
+(5, 1, '2025-08-25', 0, 0, ''),
+(6, 0, '2025-07-30', 0, 0, '');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -134,7 +135,8 @@ INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`) VALUES
 -- A tábla indexei `arveres`
 --
 ALTER TABLE `arveres`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `JelentkezID` (`JelentkezID`);
 
 --
 -- A tábla indexei `felhasznalo`
@@ -188,9 +190,9 @@ ALTER TABLE `raktar`
 -- Megkötések a táblához `fr-koto`
 --
 ALTER TABLE `fr-koto`
-  ADD CONSTRAINT `FK_frk_felhasznalo` FOREIGN KEY (`fid`) REFERENCES `felhasznalo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_frk_raktar` FOREIGN KEY (`rid`) REFERENCES `raktar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fr-koto_ibfk_1` FOREIGN KEY (`aid`) REFERENCES `arveres` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fr-koto_ibfk_2` FOREIGN KEY (`fid`) REFERENCES `felhasznalo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fr-koto_ibfk_3` FOREIGN KEY (`rid`) REFERENCES `raktar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fr-koto_ibfk_4` FOREIGN KEY (`aid`) REFERENCES `arveres` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
