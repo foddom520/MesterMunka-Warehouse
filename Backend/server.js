@@ -15,10 +15,6 @@ const db = mysql.createPool({
     database: process.env.DB_Name || 'warehouse',
     port: process.env.DB_Port || 3307 || 3306
 });
-//Főoldal
-app.get('/', (req, res) => {
-    res.send('Főoldal');
-});
 
 //Bejelentkezés
 app.post('/login', async (req, res) => {
@@ -40,6 +36,7 @@ app.post('/login', async (req, res) => {
     });
 });
 
+
 //Regisztráció
 app.post('/register', async (req, res) => {
   const {Felhasznalonev, Email, Jelszo } = req.body;
@@ -57,6 +54,85 @@ app.post('/register', async (req, res) => {
 });
 
 
+//Jelszó módosítás
+
+app.patch('/p/jelszo', async (req, res) => {
+    const { /*Jelszo,*/ UjJelszo, Felhasznalonev } = req.body; //az eredeti jelszót nem használjuk jelenleg 
+
+   /* const sql = 'SELECT Jelszo FROM felhasznalo WHERE FelhasznaloNev = ?';
+
+    db.query(sql, [Felhasznalonev], async (err, results) => {
+        if (err) {
+            return res.status(500).send("Adatbázis hiba");
+        }
+
+        if (results.length === 0) {
+            return res.status(401).send('Invalid user'); //ha ez megjelenik, akkor nagy baj van
+        }
+        
+        const user = results[0];
+        const validPassword = await argon2.verify(user.Jelszo, Jelszo);
+        if (!validPassword) {
+            return res.status(401).send('Invalid current password'); //Megerősítjük hogy a profil tulajdonosa akar jelszót változtatni
+        }
+        */
+
+        const hashedPassword = await argon2.hash(UjJelszo);//új jelszó hashelése
+        const updateSql = 'UPDATE felhasznalo SET Jelszo = ? WHERE FelhasznaloNev = ?';//felülírja a régi jelszót
+
+        db.query(updateSql, [hashedPassword, Felhasznalonev], (err, results) => {
+            if (err) {
+                return res.status(500).send("Adatbázis hiba");
+            }
+            res.status(200).send('Sikeres jelszó módosítás');
+        });
+    //});
+});
+//tesztelni ^^^^^^^
+
+
+//Profil törlés
+
+app.delete('/p/torles', (req, res) => {
+    const { Felhasznalonev } = req.body;
+    const sql = 'DELETE FROM felhasznalo WHERE FelhasznaloNev = ?';
+    db.query(sql, [Felhasznalonev], (err, results) => {
+        if (err) {
+            return res.status(500).send("Adatbázis hiba");
+        }
+        res.status(200).send('Sikeres profil törlés');
+    });
+});
+//tesztelni ^^^^^^^
+
+
+//Profil oldal api
+app.get('/p/info', (req, res) => {
+    const sql = 'select FelhasznaloNev, Email from felhasznalo';
+    db.query(sql, (err, results) => {
+        if (err) {
+            return res.status(500).send("Adatbázis hiba");
+        }
+        res.json(results);
+    }
+    );
+});
+
+
+//Profilnév módosítás
+app.post('/p/mod', (req, res) => {
+    const { Felhasznalonev, RegiFnev } = req.body;
+    const sql = 'UPDATE felhasznalo SET FelhasznaloNev = ? WHERE FelhasznaloNev = ?';
+    db.query(sql, [Felhasznalonev, RegiFnev], (err, results) => {
+        if (err) {
+            return res.status(500).send("Adatbázis hiba");
+        }
+        res.status(200).send('Sikeres módosítás');
+    });
+});
+//tesztelni ^^^^^^^
+
+
 // A raktárak információit kérdezi le
 app.get('/raktar', (req, res) => {
     const sql = 'SELECT id as "raktár száma", foglalt as "foglaltság", hatarido as "határidő" FROM raktar';
@@ -69,6 +145,7 @@ app.get('/raktar', (req, res) => {
     );
 });
 
+
 // Az összes árverést kérdezi le
 app.get('/arveres', (req, res) => {
     const sql = 'select raktar.id, arveres.idopont, arveres.id FROM raktar INNER JOIN arveres ON raktar.id = arveres.id;';
@@ -80,6 +157,7 @@ app.get('/arveres', (req, res) => {
     }
     );
 });
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
