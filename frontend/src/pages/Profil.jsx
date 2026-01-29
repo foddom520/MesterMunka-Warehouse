@@ -298,7 +298,7 @@ export default function ProfileSettings() {
                 {securityMsg.text && <Alert variant={securityMsg.type}>{securityMsg.text}</Alert>}
 
                 <Row className="g-4">
-                  <Col md={7}>
+                  <Col md={12}>
                     <Card className="border-0">
                       <Card.Body className="p-0">
                         <h6 className="mb-3">Change password</h6>
@@ -370,39 +370,6 @@ export default function ProfileSettings() {
 
                           <Button type="submit">Update password</Button>
                         </Form>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-
-                  <Col md={5}>
-                    <Card>
-                      <Card.Body>
-                        <h6 className="mb-3">Extra protection</h6>
-
-                        <Form.Check
-                          type="switch"
-                          id="2fa-switch"
-                          label="Enable 2-factor authentication (demo)"
-                          checked={security.twoFactorEnabled}
-                          onChange={(e) =>
-                            setSecurity((s) => ({
-                              ...s,
-                              twoFactorEnabled: e.target.checked,
-                            }))
-                          }
-                        />
-                        <div className="text-muted mt-2" style={{ fontSize: 13 }}>
-                          In a real app, this would start a setup flow (TOTP / SMS / passkeys).
-                        </div>
-
-                        <hr />
-
-                        <Button variant="outline-secondary" className="w-100" type="button">
-                          View active sessions (demo)
-                        </Button>
-                        <div className="text-muted mt-2" style={{ fontSize: 13 }}>
-                          Shows devices logged into your account.
-                        </div>
                       </Card.Body>
                     </Card>
                   </Col>
@@ -570,21 +537,9 @@ export default function ProfileSettings() {
                 </Card.Subtitle>
 
                 <Row className="g-3">
-                  <Col md={6}>
-                    <Card className="border-danger">
-                      <Card.Body>
-                        <h6 className="text-danger">Deactivate account</h6>
-                        <div className="text-muted mb-3" style={{ fontSize: 13 }}>
-                          Temporarily disable your account. You can reactivate later.
-                        </div>
-                        <Button variant="outline-danger" type="button" className="w-100">
-                          Deactivate (demo)
-                        </Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
+                  
 
-                  <Col md={6}>
+                  <Col md={12}>
                     <Card className="border-danger">
                       <Card.Body>
                         <h6 className="text-danger">Delete account</h6>
