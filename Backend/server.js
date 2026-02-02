@@ -135,7 +135,7 @@ app.post('/p/mod', (req, res) => {
 
 // A raktárak információit kérdezi le
 app.get('/raktar', (req, res) => {
-    const sql = 'SELECT id as "raktár száma", foglalt as "foglaltság", hatarido as "határidő", Iranyitoszam, Hazszam, Utca, FROM raktar';
+    const sql = 'SELECT id as "raktár száma", foglalt as "foglaltság", hatarido as "határidő", Iranyitoszam, Hazszam, Utca FROM raktar';
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(500).send("Adatbázis hiba");
