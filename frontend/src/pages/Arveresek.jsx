@@ -56,9 +56,9 @@ const Arveresek = () => {
           <Alert variant="secondary">Nincs megjeleníthető árverés.</Alert>
         )}
 
-        <Container className="my-5">
+        <Container>
           <Row>
-            <Col lg={9}>
+            <Col>
               {/* Auctions Grid */}
               <h3 className="mb-4" style={{ color: "white"}}>Active Auctions</h3>
               <Row>
