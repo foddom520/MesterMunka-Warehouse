@@ -15,7 +15,7 @@ import Balsavgeci from './pages/testlelek.jsx';
 
 function App() {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100"> 
     <BrowserRouter>
       <Navbar bg="dark" variant="dark">
         <Container className="d-flex align-items-center justify-content-between py-2">
@@ -55,7 +55,7 @@ function App() {
       </Routes>
     </BrowserRouter>
 
-    <footer className="bg-dark-custom text-white py-4 mt-4">
+    <footer className="bg-dark-custom text-white py-4 mt-auto">
     <Container>
       <Row>
         <Col md={4}>
