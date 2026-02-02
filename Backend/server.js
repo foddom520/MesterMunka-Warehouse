@@ -135,7 +135,7 @@ app.post('/p/mod', (req, res) => {
 
 // A raktárak információit kérdezi le
 app.get('/raktar', (req, res) => {
-    const sql = 'SELECT id as "raktár száma", foglalt as "foglaltság", hatarido as "határidő" FROM raktar';
+    const sql = 'SELECT id as "raktár száma", foglalt as "foglaltság", hatarido as "határidő", Iranyitoszam, Hazszam, Utca, FROM raktar';
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(500).send("Adatbázis hiba");
@@ -148,7 +148,7 @@ app.get('/raktar', (req, res) => {
 
 // Az összes árverést kérdezi le
 app.get('/arveres', (req, res) => {
-    const sql = 'select raktar.id, arveres.idopont, arveres.id FROM raktar INNER JOIN arveres ON raktar.id = arveres.id;';
+    const sql = 'select raktar.id, raktar.Iranyitoszam, raktar.Hazszam, raktar.Utca, arveres.idopont, arveres.id FROM raktar INNER JOIN arveres ON raktar.id = arveres.id;';
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(500).send("Adatbázis hiba");

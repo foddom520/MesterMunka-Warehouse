@@ -8,7 +8,6 @@ const Arveresek = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const load = async () => {
