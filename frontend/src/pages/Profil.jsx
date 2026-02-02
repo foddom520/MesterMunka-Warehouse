@@ -1,23 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Nav,
-  Card,
-  Form,
-  Button,
-  Alert,
-  InputGroup,
-} from "react-bootstrap";
+import {Container,Row,Col,Nav,Card,Form,Button,Alert,InputGroup} from "react-bootstrap";
 
 export default function ProfileSettings() {
   const sections = useMemo(
     () => [
       { id: "profile", label: "Profile details" },
       { id: "security", label: "Security" },
-      { id: "preferences", label: "Preferences" },
-      { id: "notifications", label: "Notifications" },
       { id: "danger", label: "Danger zone" },
     ],
     []
@@ -25,7 +13,6 @@ export default function ProfileSettings() {
 
   const [activeId, setActiveId] = useState("profile");
 
-  // --- Profile form state
   const [profile, setProfile] = useState({
     displayName: "Alex Example",
     username: "alexexample",
@@ -35,7 +22,6 @@ export default function ProfileSettings() {
 
   const [profileSaved, setProfileSaved] = useState(false);
 
-  // --- Security form state
   const [security, setSecurity] = useState({
     currentPassword: "",
     newPassword: "",
@@ -46,7 +32,6 @@ export default function ProfileSettings() {
   const [showPw, setShowPw] = useState(false);
   const [securityMsg, setSecurityMsg] = useState({ type: "", text: "" });
 
-  // --- Preferences state
   const [prefs, setPrefs] = useState({
     theme: "system",
     language: "en",
@@ -56,7 +41,6 @@ export default function ProfileSettings() {
 
   const [prefsSaved, setPrefsSaved] = useState(false);
 
-  // --- Notifications state
   const [notifs, setNotifs] = useState({
     productUpdates: true,
     securityAlerts: true,
@@ -66,14 +50,12 @@ export default function ProfileSettings() {
 
   const [notifsSaved, setNotifsSaved] = useState(false);
 
-  // --- Scroll helpers
   const scrollTo = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   useEffect(() => {
-    // Simple scrollspy via IntersectionObserver
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -96,7 +78,6 @@ export default function ProfileSettings() {
     return () => observer.disconnect();
   }, [sections]);
 
-  // --- Handlers
   const saveProfile = (e) => {
     e.preventDefault();
     setProfileSaved(true);
@@ -124,7 +105,6 @@ export default function ProfileSettings() {
 
     const { currentPassword, newPassword, confirmPassword } = security;
 
-    // Basic validation (customize to your requirements)
     if (!currentPassword || !newPassword || !confirmPassword) {
       setSecurityMsg({ type: "danger", text: "Please fill in all password fields." });
       return;
@@ -172,7 +152,6 @@ export default function ProfileSettings() {
   return (
     <Container fluid className="py-4">
       <Row className="g-4">
-        {/* Sticky Sidebar */}
         <Col lg={3}>
           <div style={{ position: "sticky", top: "1rem" }}>
             <Card>
@@ -198,9 +177,7 @@ export default function ProfileSettings() {
           </div>
         </Col>
 
-        {/* Content */}
         <Col lg={9}>
-          {/* PROFILE DETAILS */}
           <section id="profile" style={{ scrollMarginTop: "1rem" }}>
             <Card className="mb-4">
               <Card.Body>
@@ -215,17 +192,6 @@ export default function ProfileSettings() {
                   <Row className="g-3">
                     <Col md={6}>
                       <Form.Group>
-                        <Form.Label>Display name</Form.Label>
-                        <Form.Control
-                          value={profile.displayName}
-                          onChange={(e) =>
-                            setProfile((p) => ({ ...p, displayName: e.target.value }))
-                          }
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                      <Form.Group>
                         <Form.Label>Username</Form.Label>
                         <Form.Control
                           value={profile.username}
@@ -233,9 +199,6 @@ export default function ProfileSettings() {
                             setProfile((p) => ({ ...p, username: e.target.value }))
                           }
                         />
-                        <Form.Text className="text-muted">
-                          Usually unique. You can add validation on save.
-                        </Form.Text>
                       </Form.Group>
                     </Col>
                     <Col md={6}>
@@ -245,20 +208,6 @@ export default function ProfileSettings() {
                           type="email"
                           value={profile.email}
                           onChange={(e) => setProfile((p) => ({ ...p, email: e.target.value }))}
-                        />
-                        <Form.Text className="text-muted">
-                          We’ll use this for account recovery.
-                        </Form.Text>
-                      </Form.Group>
-                    </Col>
-                    <Col md={12}>
-                      <Form.Group>
-                        <Form.Label>Bio</Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          rows={3}
-                          value={profile.bio}
-                          onChange={(e) => setProfile((p) => ({ ...p, bio: e.target.value }))}
                         />
                       </Form.Group>
                     </Col>
@@ -286,7 +235,8 @@ export default function ProfileSettings() {
             </Card>
           </section>
 
-          {/* SECURITY */}
+
+          {/* meg kell csinálni hogy egy felugró ablakban jelenjen meg a jelszó válzotatás mikor rá nyomunk a "jelszó megváltoztatása" gombra */}
           <section id="security" style={{ scrollMarginTop: "1rem" }}>
             <Card className="mb-4">
               <Card.Body>
@@ -378,156 +328,6 @@ export default function ProfileSettings() {
             </Card>
           </section>
 
-          {/* PREFERENCES */}
-          <section id="preferences" style={{ scrollMarginTop: "1rem" }}>
-            <Card className="mb-4">
-              <Card.Body>
-                <Card.Title>Preferences</Card.Title>
-                <Card.Subtitle className="text-muted mb-3">
-                  Customize how the app looks and behaves.
-                </Card.Subtitle>
-
-                {prefsSaved && <Alert variant="success">Preferences saved (demo).</Alert>}
-
-                <Form onSubmit={savePrefs}>
-                  <Row className="g-3">
-                    <Col md={4}>
-                      <Form.Group>
-                        <Form.Label>Theme</Form.Label>
-                        <Form.Select
-                          value={prefs.theme}
-                          onChange={(e) => setPrefs((p) => ({ ...p, theme: e.target.value }))}
-                        >
-                          <option value="system">System</option>
-                          <option value="light">Light</option>
-                          <option value="dark">Dark</option>
-                        </Form.Select>
-                      </Form.Group>
-                    </Col>
-
-                    <Col md={4}>
-                      <Form.Group>
-                        <Form.Label>Language</Form.Label>
-                        <Form.Select
-                          value={prefs.language}
-                          onChange={(e) => setPrefs((p) => ({ ...p, language: e.target.value }))}
-                        >
-                          <option value="en">English</option>
-                          <option value="hu">Hungarian</option>
-                          <option value="de">German</option>
-                        </Form.Select>
-                      </Form.Group>
-                    </Col>
-
-                    <Col md={4}>
-                      <Form.Group>
-                        <Form.Label>Time zone</Form.Label>
-                        <Form.Control
-                          value={prefs.timezone}
-                          onChange={(e) => setPrefs((p) => ({ ...p, timezone: e.target.value }))}
-                        />
-                        <Form.Text className="text-muted">
-                          Example: Europe/Budapest
-                        </Form.Text>
-                      </Form.Group>
-                    </Col>
-
-                    <Col md={12}>
-                      <Form.Check
-                        type="checkbox"
-                        id="marketing-emails"
-                        label="Receive marketing emails"
-                        checked={prefs.marketingEmails}
-                        onChange={(e) =>
-                          setPrefs((p) => ({ ...p, marketingEmails: e.target.checked }))
-                        }
-                      />
-                    </Col>
-                  </Row>
-
-                  <div className="mt-3">
-                    <Button type="submit">Save preferences</Button>
-                  </div>
-                </Form>
-              </Card.Body>
-            </Card>
-          </section>
-
-          {/* NOTIFICATIONS */}
-          <section id="notifications" style={{ scrollMarginTop: "1rem" }}>
-            <Card className="mb-4">
-              <Card.Body>
-                <Card.Title>Notifications</Card.Title>
-                <Card.Subtitle className="text-muted mb-3">
-                  Choose what we notify you about.
-                </Card.Subtitle>
-
-                {notifsSaved && <Alert variant="success">Notification settings saved (demo).</Alert>}
-
-                <Form onSubmit={saveNotifs}>
-                  <Row className="g-3">
-                    <Col md={6}>
-                      <Card>
-                        <Card.Body>
-                          <h6>Email</h6>
-                          <Form.Check
-                            type="switch"
-                            id="prod-updates"
-                            label="Product updates"
-                            checked={notifs.productUpdates}
-                            onChange={(e) =>
-                              setNotifs((n) => ({ ...n, productUpdates: e.target.checked }))
-                            }
-                          />
-                          <Form.Check
-                            type="switch"
-                            id="weekly-digest"
-                            label="Weekly digest"
-                            checked={notifs.weeklyDigest}
-                            onChange={(e) =>
-                              setNotifs((n) => ({ ...n, weeklyDigest: e.target.checked }))
-                            }
-                          />
-                        </Card.Body>
-                      </Card>
-                    </Col>
-
-                    <Col md={6}>
-                      <Card>
-                        <Card.Body>
-                          <h6>Security</h6>
-                          <Form.Check
-                            type="switch"
-                            id="security-alerts"
-                            label="Security alerts (recommended)"
-                            checked={notifs.securityAlerts}
-                            onChange={(e) =>
-                              setNotifs((n) => ({ ...n, securityAlerts: e.target.checked }))
-                            }
-                          />
-                          <Form.Check
-                            type="switch"
-                            id="push-notifs"
-                            label="Push notifications"
-                            checked={notifs.pushNotifications}
-                            onChange={(e) =>
-                              setNotifs((n) => ({ ...n, pushNotifications: e.target.checked }))
-                            }
-                          />
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  </Row>
-
-                  <div className="mt-3">
-                    <Button type="submit">Save notifications</Button>
-                  </div>
-                </Form>
-              </Card.Body>
-            </Card>
-          </section>
-
-          {/* DANGER ZONE */}
           <section id="danger" style={{ scrollMarginTop: "1rem" }}>
             <Card className="mb-4 border-danger">
               <Card.Body>

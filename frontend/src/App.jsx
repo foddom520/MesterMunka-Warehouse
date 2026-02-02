@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './pages/Home.jsx';
@@ -19,7 +18,6 @@ function App() {
     <div>
     <BrowserRouter>
       <Navbar bg="dark" variant="dark">
-        {/* 🔹 Top row */}
         <Container className="d-flex align-items-center justify-content-between py-2">
           <a className="navbar-brand d-flex align-items-center" href="#">
             <FaGavel className="me-2" />
@@ -29,9 +27,6 @@ function App() {
           </a>
 
           <div className="navbar-actions d-flex align-items-center">
-            {/* <Button variant="outline-light" className="me-2">
-              <FaBell />
-            </Button> */} {/* make it so it show up only after logging in. */}
           </div>
         </Container>
         <div>
@@ -43,7 +38,7 @@ function App() {
               <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
               <Nav.Link href="/Registration">Regisztráció</Nav.Link>
               <Nav.Link href="/Profil">Profil</Nav.Link>
-              <Nav.Link href="/testelek">Test Elek</Nav.Link> {/* Added new link for testelek */}
+              <Nav.Link href="/testelek">Test Elek</Nav.Link>
             </Nav>
           </Container>
         </div>
@@ -56,7 +51,7 @@ function App() {
         <Route path='/Login' element={<Login />}/>
         <Route path='/Registration' element={<Registration />}/>
         <Route path='/Profil' element={<Profil />}/>
-        <Route path="/testelek" element={<Balsavgeci />} /> {/* Corrected component name casing */}
+        <Route path="/testelek" element={<Balsavgeci />} />
       </Routes>
     </BrowserRouter>
 

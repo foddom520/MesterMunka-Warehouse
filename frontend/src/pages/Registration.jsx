@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
-import { FaClock, FaUsers, FaTrophy, FaGavel, FaSearch, FaBell, FaUser, FaHeart, FaShare, FaTag } from 'react-icons/fa';
 
 function Registration() {
   const [vnev, setVnev] = useState("");
@@ -89,7 +88,6 @@ function Registration() {
                   />
                 </Form.Group>
 
-                {/* összehasonlítás megcsinálása */}
                 <Form.Group className="mb-3" controlId="formPassword">
                   <Form.Label>Jelszó</Form.Label>
                   <Form.Control
