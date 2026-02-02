@@ -8,7 +8,6 @@ export default function ProfileSettings() {
       { id: "security", label: "Security" },
       { id: "danger", label: "Danger zone" },
     ],
-    []
   );
 
   const [activeId, setActiveId] = useState("profile");
