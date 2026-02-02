@@ -55,7 +55,7 @@ function App() {
       </Routes>
     </BrowserRouter>
 
-    <footer className="bg-dark-custom text-white py-5 footer-custom fixed-bottom">
+    <footer className="bg-dark-custom text-white py-5 footer-custom">
     <Container>
       <Row>
         <Col md={4}>
