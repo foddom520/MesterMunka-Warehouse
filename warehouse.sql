@@ -26,10 +26,20 @@ USE `warehouse`;
 -- --------------------------------------------------------
 
 --
+-- Clean up existing tables (Order is important for Foreign Keys)
+--
+
+DROP TABLE IF EXISTS `fr-koto`;
+DROP TABLE IF EXISTS `arveres`;
+DROP TABLE IF EXISTS `felhasznalo`;
+DROP TABLE IF EXISTS `raktar`;
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `arveres`
 --
 
-DROP TABLE IF EXISTS `arveres`;
 CREATE TABLE `arveres` (
   `id` int(11) NOT NULL,
   `idopont` datetime NOT NULL,
@@ -54,7 +64,6 @@ INSERT INTO `arveres` (`id`, `idopont`, `JelentkezID`) VALUES
 -- Tábla szerkezet ehhez a táblához `felhasznalo`
 --
 
-DROP TABLE IF EXISTS `felhasznalo`;
 CREATE TABLE `felhasznalo` (
   `id` int(11) NOT NULL,
   `FelhasznaloNev` varchar(16) NOT NULL,
@@ -77,10 +86,36 @@ INSERT INTO `felhasznalo` (`id`, `FelhasznaloNev`, `Email`, `Jelszo`, `PFP`, `Ad
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `raktar`
+--
+
+CREATE TABLE `raktar` (
+  `id` int(11) NOT NULL,
+  `foglalt` tinyint(1) NOT NULL,
+  `hatarido` date NOT NULL,
+  `Iranyitoszam` int(11) NOT NULL,
+  `Hazszam` int(11) NOT NULL,
+  `Utca` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `raktar` (UPDATED WITH REAL ADDRESSES)
+--
+
+INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`, `Iranyitoszam`, `Hazszam`, `Utca`) VALUES
+(1, 1, '2025-12-31', 1134, 45, 'Váci út'),
+(2, 0, '2025-11-30', 1052, 12, 'Petőfi Sándor utca'),
+(3, 1, '2025-10-15', 6720, 5, 'Dóm tér'),
+(4, 0, '2025-09-20', 4024, 22, 'Kossuth utca'),
+(5, 1, '2025-08-25', 7621, 8, 'Király utca'),
+(6, 0, '2025-07-30', 9021, 10, 'Baross Gábor út');
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `fr-koto`
 --
 
-DROP TABLE IF EXISTS `fr-koto`;
 CREATE TABLE `fr-koto` (
   `fid` int(11) NOT NULL,
   `rid` int(11) NOT NULL,
@@ -100,32 +135,6 @@ INSERT INTO `fr-koto` (`fid`, `rid`, `aid`) VALUES
 (4, 5, 5);
 
 -- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `raktar`
---
-
-DROP TABLE IF EXISTS `raktar`;
-CREATE TABLE `raktar` (
-  `id` int(11) NOT NULL,
-  `foglalt` tinyint(1) NOT NULL,
-  `hatarido` date NOT NULL,
-  `Iranyitoszam` int(11) NOT NULL,
-  `Hazszam` int(11) NOT NULL,
-  `Utca` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `raktar`
---
-
-INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`, `Iranyitoszam`, `Hazszam`, `Utca`) VALUES
-(1, 1, '2025-12-31', 0, 0, ''),
-(2, 0, '2025-11-30', 0, 0, ''),
-(3, 1, '2025-10-15', 0, 0, ''),
-(4, 0, '2025-09-20', 0, 0, ''),
-(5, 1, '2025-08-25', 0, 0, ''),
-(6, 0, '2025-07-30', 0, 0, '');
 
 --
 -- Indexek a kiírt táblákhoz
