@@ -11,7 +11,6 @@ import Profil from './pages/Profil.jsx';
 import { FaGavel} from 'react-icons/fa';
 import { Container, Row, Col,  Button} from "react-bootstrap";
 import './styles/HomePage.css';
-import Balsavgeci from './pages/testlelek.jsx';
 import PlaceBid from './pages/PlaceBid.jsx';
 
 function App() {
@@ -39,7 +38,6 @@ function App() {
               <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
               <Nav.Link href="/Registration">Regisztráció</Nav.Link>
               <Nav.Link href="/Profil">Profil</Nav.Link>
-              <Nav.Link href="/testelek">Test Elek</Nav.Link>
             </Nav>
           </Container>
         </div>
@@ -52,7 +50,6 @@ function App() {
         <Route path='/Login' element={<Login />}/>
         <Route path='/Registration' element={<Registration />}/>
         <Route path='/Profil' element={<Profil />}/>
-        <Route path="/testelek" element={<Balsavgeci />} />
         <Route path="/Arveresek/:id" element={<PlaceBid />} />
 
 
