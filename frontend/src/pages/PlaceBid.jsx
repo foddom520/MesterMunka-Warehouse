@@ -23,12 +23,9 @@ const PlaceBid = () => {
               <Form.Control type="text" placeholder="Add meg a telefonszámod" />
             </Form.Group>
 
-            <Form.Group controlId="formBasicAuction">
-              <Form.Label>Melyik árverésre jelentkezel?</Form.Label>
-              <Form.Control type="text" placeholder="Pl. Festmény árverés" />
-            </Form.Group>
+            
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" style={{ marginTop: '2px' }}>
               Jelentkezés
             </Button>
           </Form>
