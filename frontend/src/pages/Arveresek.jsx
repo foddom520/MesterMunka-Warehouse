@@ -3,11 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Button, Card, Row, Col, Alert, Spinner, Badge } from "react-bootstrap";
 import { FaClock, FaUsers, FaTrophy, FaGavel, FaSearch, FaBell, FaUser, FaHeart, FaShare, FaTag } from 'react-icons/fa';
 import backgroundimage from "../kepek/HomePageBackGround.png";
+import { useNavigate } from "react-router-dom";
 
 const Arveresek = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const load = async () => {
@@ -97,9 +100,8 @@ const Arveresek = () => {
                         <Button 
                           variant="outline-primary" 
                           className="w-100"
-                          onClick={() => {
-                            console.log("Open auction:", auction.arveresId);
-                          }}
+                          onClick={() => navigate(`/Arveresek/${auction.arveresId}`)}
+
                         >
                           Place Bid
                         </Button>
