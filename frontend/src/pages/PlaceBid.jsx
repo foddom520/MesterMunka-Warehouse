@@ -1,15 +1,40 @@
-import { useParams } from "react-router-dom";
+import React from 'react';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 const PlaceBid = () => {
-  const { id } = useParams();
-
   return (
-    <>
-    <div>
-      <h1>Árverés részletei teszt – ID: {id}</h1>
-    </div>
-    <h1>cica</h1>
-    </>
+    <Container>
+      <Row className="justify-content-md-center">
+        <Col md="4">
+          <h2>Árverésre jelentkezés</h2>
+          <Form>
+            <Form.Group controlId="formBasicName">
+              <Form.Label>Név</Form.Label>
+              <Form.Control type="text" placeholder="Add meg a neved" />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email cím</Form.Label>
+              <Form.Control type="email" placeholder="Add meg az email címed" />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPhone">
+              <Form.Label>Telefonszám</Form.Label>
+              <Form.Control type="text" placeholder="Add meg a telefonszámod" />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicAuction">
+              <Form.Label>Melyik árverésre jelentkezel?</Form.Label>
+              <Form.Control type="text" placeholder="Pl. Festmény árverés" />
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+              Jelentkezés
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
