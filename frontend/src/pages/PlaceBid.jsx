@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-const ArveresTest = () => {
+const PlaceBid = () => {
   const { id } = useParams();
 
   return (
@@ -13,4 +13,4 @@ const ArveresTest = () => {
   );
 };
 
-export default ArveresTest;
+export default PlaceBid;

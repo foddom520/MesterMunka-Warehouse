@@ -12,7 +12,7 @@ import { FaGavel} from 'react-icons/fa';
 import { Container, Row, Col,  Button} from "react-bootstrap";
 import './styles/HomePage.css';
 import Balsavgeci from './pages/testlelek.jsx';
-import ArveresTest from './pages/ArveresTest.jsx';
+import PlaceBid from './pages/PlaceBid.jsx';
 
 function App() {
   return (
@@ -53,7 +53,8 @@ function App() {
         <Route path='/Registration' element={<Registration />}/>
         <Route path='/Profil' element={<Profil />}/>
         <Route path="/testelek" element={<Balsavgeci />} />
-        <Route path="/Arveresek/:id" element={<ArveresTest />} />
+        <Route path="/Arveresek/:id" element={<PlaceBid />} />
+
 
       </Routes>
     </BrowserRouter>
