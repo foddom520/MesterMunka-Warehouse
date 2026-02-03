@@ -25,7 +25,7 @@ const PlaceBid = () => {
 
             
 
-            <Button variant="primary" type="submit" style={{ marginTop: '2px' }}>
+            <Button variant="primary" type="submit" style={{ marginTop: '10px' }}>
               Jelentkezés
             </Button>
           </Form>
