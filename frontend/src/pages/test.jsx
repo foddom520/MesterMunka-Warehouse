@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/PlaceBid.css';
 
 const TestPage = () => {
     const [bid, setBid] = useState(1250);
@@ -57,6 +58,7 @@ const TestPage = () => {
               <div>
                 <p className="text-gray-500 text-sm">Current Bid</p>
                 <p className="text-3xl font-bold text-gray-900">${bid.toLocaleString()}</p>
+                <button>Bid History</button>
               </div>
               <div className="text-right">
                 <p className="text-gray-500 text-sm">Time Remaining</p>
