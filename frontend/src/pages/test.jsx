@@ -55,6 +55,20 @@ const TestPage = () => {
           </p>
         </div>
 
+        {/* Action Form */}
+        <form onSubmit={handlePlaceBid} className="flex gap-3">
+          <input 
+            type="number" 
+            name="bidAmount"
+            placeholder={`Enter $${Number(bid) + 50} or more`}
+            className="flex-1 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            required
+          />
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold transition">
+            Place Bid
+          </button>
+        </form>
+
         {/* Price & Timer Card */}
         <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 flex justify-between items-center">
           <div>
@@ -76,27 +90,15 @@ const TestPage = () => {
           </div>
         </div>
 
-        {/* Action Form */}
-        <form onSubmit={handlePlaceBid} className="flex gap-3">
-          <input 
-            type="number" 
-            name="bidAmount"
-            placeholder={`Enter $${Number(bid) + 50} or more`}
-            className="flex-1 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-            required
-          />
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-bold transition">
-            Place Bid
-          </button>
-        </form>
+        
 
-        {/* Bid History Table (original, page version) */}
+       
        
       </div>
 
       {/* MODAL – Bid History Popup */}
       {showHistory && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50">
           <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl">
             
             <div className="flex justify-between items-center mb-4">
@@ -115,7 +117,7 @@ const TestPage = () => {
                 { user: "Collector_A", amount: 1100, time: "10 mins ago" },
                 { user: "TimeKeeper", amount: 1050, time: "1 hour ago" },
               ].map((entry, idx) => (
-                <div key={idx} className="flex justify-between text-sm py-2 border-b border-gray-100">
+                <div key={idx} className="flex justify-between text-sm py-1 px-3 border-b border-gray-100">
                   <span className="font-medium">{entry.user}</span>
                   <span className="text-gray-400">{entry.time}</span>
                   <span className="font-bold">${entry.amount}</span>
