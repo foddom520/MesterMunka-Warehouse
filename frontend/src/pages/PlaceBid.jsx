@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/PlaceBid.css';
 import {Modal, Button} from 'react-bootstrap';
 
-const TestPage = () => {
+const PlaceBid = () => {
   const [bid, setBid] = useState(1250);
   const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 45, seconds: 10 });
   
@@ -139,4 +139,4 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default PlaceBid;
