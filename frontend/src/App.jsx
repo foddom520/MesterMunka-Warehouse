@@ -18,32 +18,33 @@ function App() {
   return (
     <div className="d-flex flex-column min-vh-100"> 
     <BrowserRouter>
-      <Navbar bg="dark" variant="dark">
-        <Container className="d-flex align-items-center justify-content-between py-2">
-          <a className="navbar-brand d-flex align-items-center" href="#">
-            <FaGavel className="me-2" />
-            <span className="brand-text">
-              Bid<span className="text-primary">&</span>Lock
-            </span>
-          </a>
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container className="d-flex align-items-center justify-content-between py-2">
+        <a className="navbar-brand d-flex align-items-center" href="#">
+          <FaGavel className="me-2" />
+          <span className="brand-text">
+            Bid<span className="text-primary">&</span>Lock
+          </span>
+        </a>
 
-          <div className="navbar-actions d-flex align-items-center">
-          </div>
-        </Container>
-        <div>
-          <Container>
-            <Nav className="py-2 justify-content-center">
-              <Nav.Link href="/">Főoldal</Nav.Link>
-              <Nav.Link href="/Arveresek">Árverések</Nav.Link>
-              <Nav.Link href="/Raktar">Raktárak</Nav.Link>
-              <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
-              <Nav.Link href="/Registration">Regisztráció</Nav.Link>
-              <Nav.Link href="/Profil">Profil</Nav.Link>
-              <Nav.Link href="/test">Test</Nav.Link>
-            </Nav>
-          </Container>
-        </div>
-      </Navbar>
+    <Navbar.Toggle aria-controls="main-navbar" />
+  </Container>
+
+  <Navbar.Collapse id="main-navbar">
+    <Container>
+      <Nav className="py-2 justify-content-center">
+        <Nav.Link href="/">Főoldal</Nav.Link>
+        <Nav.Link href="/Arveresek">Árverések</Nav.Link>
+        <Nav.Link href="/Raktar">Raktárak</Nav.Link>
+        <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
+        <Nav.Link href="/Registration">Regisztráció</Nav.Link>
+        <Nav.Link href="/Profil">Profil</Nav.Link>
+        <Nav.Link href="/test">Test</Nav.Link>
+      </Nav>
+    </Container>
+  </Navbar.Collapse>
+</Navbar>
+
 
       <Routes>
         <Route path="/" element={<Home />} />
