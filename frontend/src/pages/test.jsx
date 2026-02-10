@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/PlaceBid.css';
+import {Modal, Button} from 'react-bootstrap';
 
 const TestPage = () => {
   const [bid, setBid] = useState(1250);
   const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 45, seconds: 10 });
+  
 
   const [showHistory, setShowHistory] = useState(false);
 
@@ -97,37 +99,41 @@ const TestPage = () => {
       </div>
 
       {/* MODAL – Bid History Popup */}
-      {showHistory && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50">
-          <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl">
-            
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-lg">Bid History</h3>
-              <button 
-                onClick={() => setShowHistory(false)} 
-                className="text-gray-500 hover:text-gray-700 text-xl"
+      <Modal
+        show={showHistory}
+        onHide={() => setShowHistory(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Bid History</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <div className="d-flex flex-column gap-2">
+            {[
+              { user: "WatchFan99", amount: 1250, time: "2 mins ago" },
+              { user: "Collector_A", amount: 1100, time: "10 mins ago" },
+              { user: "TimeKeeper", amount: 1050, time: "1 hour ago" },
+            ].map((entry, idx) => (
+              <div
+                key={idx}
+                className="d-flex justify-content-between align-items-center border-bottom py-2"
               >
-                ×
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              {[
-                { user: "WatchFan99", amount: 1250, time: "2 mins ago" },
-                { user: "Collector_A", amount: 1100, time: "10 mins ago" },
-                { user: "TimeKeeper", amount: 1050, time: "1 hour ago" },
-              ].map((entry, idx) => (
-                <div key={idx} className="flex justify-between text-sm py-1 px-3 border-b border-gray-100">
-                  <span className="font-medium">{entry.user}</span>
-                  <span className="text-gray-400">{entry.time}</span>
-                  <span className="font-bold">${entry.amount}</span>
-                </div>
-              ))}
-            </div>
-
+                <strong>{entry.user}</strong>
+                <small className="text-muted">{entry.time}</small>
+                <span className="fw-bold">${entry.amount}</span>
+              </div>
+            ))}
           </div>
-        </div>
-      )}
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowHistory(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
 
     </div>
   );
