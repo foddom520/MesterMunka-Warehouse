@@ -62,6 +62,7 @@ const PlaceBid = () => {
           <input 
             type="number" 
             name="bidAmount"
+            max={999999999}
             placeholder={`Enter $${Number(bid) + 50} or more`}
             className="flex-1 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             required
