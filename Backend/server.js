@@ -9,11 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createPool({
-    host: process.env.DB_Host || 'localhost',
-    user: process.env.DB_User || 'root',
-    password: process.env.DB_Password || '',
-    database: process.env.DB_Name || 'warehouse',
-    port: process.env.DB_Port || 3307 || 3306
+    host: process.env.DB_Host,
+    user: process.env.DB_User,
+    password: process.env.DB_Password,
+    database: process.env.DB_Name,
+    port: process.env.DB_Port || process.env.DB_Port2
 });
 
 //Bejelentkezés
@@ -151,14 +151,15 @@ app.get('/arveres', (req, res) => {
     const sql = 'select raktar.id, raktar.Iranyitoszam, raktar.Hazszam, raktar.Utca, arveres.idopont, arveres.id FROM raktar INNER JOIN arveres ON raktar.id = arveres.id;';
     db.query(sql, (err, results) => {
         if (err) {
-            return res.status(500).send("Adatbázis hiba");
+            console.error("Error executing query:", err);
+            return res.status(500).send("Adatbázis hiba"+err);
         }
         res.json(results);
     }
     );
 });
 
-//Jelentkezés árverésre
+//
 
 
 
