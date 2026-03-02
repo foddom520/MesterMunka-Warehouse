@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3307
--- Létrehozás ideje: 2026. Jan 21. 11:28
+-- Létrehozás ideje: 2026. Már 02. 09:08
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -26,13 +26,15 @@ USE `warehouse`;
 -- --------------------------------------------------------
 
 --
--- Clean up existing tables (Order is important for Foreign Keys)
+-- Tábla szerkezet ehhez a táblához `arinfo`
 --
 
-DROP TABLE IF EXISTS `fr-koto`;
-DROP TABLE IF EXISTS `arveres`;
-DROP TABLE IF EXISTS `felhasznalo`;
-DROP TABLE IF EXISTS `raktar`;
+CREATE TABLE `arinfo` (
+  `ID` int(11) NOT NULL,
+  `AID` int(11) NOT NULL,
+  `Licit` int(11) NOT NULL,
+  `kepUrl` varchar(1024) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -86,33 +88,6 @@ INSERT INTO `felhasznalo` (`id`, `FelhasznaloNev`, `Email`, `Jelszo`, `PFP`, `Ad
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `raktar`
---
-
-CREATE TABLE `raktar` (
-  `id` int(11) NOT NULL,
-  `foglalt` tinyint(1) NOT NULL,
-  `hatarido` date NOT NULL,
-  `Iranyitoszam` int(11) NOT NULL,
-  `Hazszam` int(11) NOT NULL,
-  `Utca` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `raktar` (UPDATED WITH REAL ADDRESSES)
---
-
-INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`, `Iranyitoszam`, `Hazszam`, `Utca`) VALUES
-(1, 1, '2025-12-31', 1134, 45, 'Váci út'),
-(2, 0, '2025-11-30', 1052, 12, 'Petőfi Sándor utca'),
-(3, 1, '2025-10-15', 6720, 5, 'Dóm tér'),
-(4, 0, '2025-09-20', 4024, 22, 'Kossuth utca'),
-(5, 1, '2025-08-25', 7621, 8, 'Király utca'),
-(6, 0, '2025-07-30', 9021, 10, 'Baross Gábor út');
-
--- --------------------------------------------------------
-
---
 -- Tábla szerkezet ehhez a táblához `fr-koto`
 --
 
@@ -137,8 +112,40 @@ INSERT INTO `fr-koto` (`fid`, `rid`, `aid`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `raktar`
+--
+
+CREATE TABLE `raktar` (
+  `id` int(11) NOT NULL,
+  `foglalt` tinyint(1) NOT NULL,
+  `hatarido` date NOT NULL,
+  `Iranyitoszam` int(11) NOT NULL,
+  `Hazszam` int(11) NOT NULL,
+  `Utca` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `raktar`
+--
+
+INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`, `Iranyitoszam`, `Hazszam`, `Utca`) VALUES
+(1, 1, '2025-12-31', 1134, 45, 'Váci út'),
+(2, 0, '2025-11-30', 1052, 12, 'Petőfi Sándor utca'),
+(3, 1, '2025-10-15', 6720, 5, 'Dóm tér'),
+(4, 0, '2025-09-20', 4024, 22, 'Kossuth utca'),
+(5, 1, '2025-08-25', 7621, 8, 'Király utca'),
+(6, 0, '2025-07-30', 9021, 10, 'Baross Gábor út');
+
+--
 -- Indexek a kiírt táblákhoz
 --
+
+--
+-- A tábla indexei `arinfo`
+--
+ALTER TABLE `arinfo`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `AID` (`AID`);
 
 --
 -- A tábla indexei `arveres`
@@ -172,6 +179,12 @@ ALTER TABLE `raktar`
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
+
+--
+-- AUTO_INCREMENT a táblához `arinfo`
+--
+ALTER TABLE `arinfo`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `arveres`

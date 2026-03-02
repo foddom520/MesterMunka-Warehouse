@@ -161,6 +161,36 @@ app.get('/arveres', (req, res) => {
 
 //
 
+app.get('/arveresinfo/:id', (req, res) => {
+    const arveresId = req.params.id;
+    const sql = 'SELECT * FROM arinfo INNER JOIN arveres ON arinfo.aid = arveres.id WHERE arveres.id = ?';
+    db.query(sql, [arveresId], (err, results) => {
+        if (err) {
+            console.error("Error executing query:", err);
+            return res.status(500).send("Adatbázis hiba"+err);
+        }
+        res.json(results);
+    }
+    );
+});
+
+
+app.patch('/arveresinfo/update', (req, res) => {
+    const { aid, licit } = req.body; 
+    //Az ID ne jelenjen meg frontendben, csak legyen hozzáférhető
+
+    const sql = 'UPDATE arveres SET licit = ? WHERE aid = ?';
+    db.query(sql, [licit, aid], (err, results) => {
+        
+        if (err) {
+            console.error("Error executing query:", err);
+            return res.status(500).send("Adatbázis hiba: " + err);
+        }
+
+        res.status(200).send("Auction updated successfully");
+    });
+});
+
 
 
 //
