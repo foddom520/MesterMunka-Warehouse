@@ -2,21 +2,25 @@ import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
 
 function Registration() {
-  const [vnev, setVnev] = useState("");
-  const [knev, setKnev] = useState("");
   const [felhasznalonev, setFelhasznalonev] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    if (password !== confirmPassword) {
+      setError("A jelszavak nem egyeznek!");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -24,8 +28,6 @@ function Registration() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          Vnev: vnev,
-          Knev: knev,
           Felhasznalonev: felhasznalonev,
           Email: email,
           Jelszo: password,
@@ -40,12 +42,10 @@ function Registration() {
       }
 
       setSuccess(text || "Sikeres regisztráció!");
-
-      setVnev("");
-      setKnev("");
       setFelhasznalonev("");
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
     } catch (err) {
       setError("Nem sikerült csatlakozni a szerverhez.");
     } finally {
@@ -54,7 +54,6 @@ function Registration() {
   };
 
   return (
-    <>
     <Container className="d-flex justify-content-center align-items-center vh-100">
       <Row>
         <Col>
@@ -65,7 +64,6 @@ function Registration() {
               {error && <Alert variant="danger">{error}</Alert>}
               {success && <Alert variant="success">{success}</Alert>}
               <Form onSubmit={handleSubmit}>
-
                 <Form.Group className="mb-3" controlId="formFelhasznaloNev">
                   <Form.Label>Felhasználónév</Form.Label>
                   <Form.Control
@@ -99,26 +97,21 @@ function Registration() {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formPasswordConfirm ">
+                <Form.Group className="mb-3" controlId="formPasswordConfirm">
                   <Form.Label>Jelszó megerősítése</Form.Label>
                   <Form.Control
                     type="password"
-                    placeholder="Add meg a jelszavad"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Erősítsd meg a jelszavad"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
                 </Form.Group>
 
                 <Button variant="dark" type="submit" className="w-100" disabled={loading}>
                   {loading ? (
-                    <>
-                      <Spinner size="sm" className="me-2" />
-                      Regisztráció...
-                    </>
-                  ) : (
-                    "Regisztráció"
-                  )}
+                    <><Spinner size="sm" className="me-2" />Regisztráció...</>
+                  ) : ("Regisztráció")}
                 </Button>
               </Form>
             </Card.Body>
@@ -126,7 +119,6 @@ function Registration() {
         </Col>
       </Row>
     </Container>
-    </>
   );
 }
 

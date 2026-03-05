@@ -100,8 +100,7 @@ const Arveresek = () => {
                         <Button 
                           variant="outline-primary" 
                           className="w-100"
-                          onClick={() => navigate(`/Arveresek/${auction.arveresId}`)}
-
+                          onClick={() => navigate(`/arveresinfo/${auction.arveresId}`)}
                         >
                           Place Bid
                         </Button>

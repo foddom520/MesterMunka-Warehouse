@@ -9,11 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createPool({
-    host: process.env.DB_Host,
-    user: process.env.DB_User,
-    password: process.env.DB_Password,
-    database: process.env.DB_Name,
-    port: process.env.DB_Port || process.env.DB_Port2
+    host: 'localhost' || process.env.DB_Host,
+    user: 'root' || process.env.DB_User,
+    password: '' || process.env.DB_Password,
+    database: 'warehouse' || process.env.DB_Name ,
+    port: 3307 || process.env.DB_Port || process.env.DB_Port2
 });
 
 //Bejelentkezés
@@ -190,14 +190,6 @@ app.patch('/arveresinfo/update', (req, res) => {
         res.status(200).send("Auction updated successfully");
     });
 });
-
-
-
-//
-
-
-
-
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
