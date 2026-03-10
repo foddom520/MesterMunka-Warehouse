@@ -176,18 +176,31 @@ app.get('/arveresinfo/:id', (req, res) => {
 
 
 app.patch('/arveresinfo/update', (req, res) => {
-    const { aid, licit } = req.body; 
-    //Az ID ne jelenjen meg frontendben, csak legyen hozzáférhető
+    const { aid, licit } = req.body;
 
-    const sql = 'UPDATE arveres SET licit = ? WHERE aid = ?';
-    db.query(sql, [licit, aid], (err, results) => {
-        
-        if (err) {
-            console.error("Error executing query:", err);
-            return res.status(500).send("Adatbázis hiba: " + err);
+    const getSql = 'SELECT licit FROM arinfo WHERE aid = ?';
+    
+    db.query(getSql, [aid], (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(500).send("Hiba az árverés lekérdezésekor.");
         }
 
-        res.status(200).send("Auction updated successfully");
+        const currentBid = results[0].licit;
+        const tenPercent = currentBid * 0.10;
+        const requiredIncrement = Math.min(tenPercent, 50);
+        const minRequired = currentBid + requiredIncrement;
+
+        if (licit < minRequired) {
+            return res.status(400).send(`A licit túl alacsony. Minimum: ${minRequired}`);
+        }
+
+        const updateSql = 'UPDATE arinfo SET licit = ? WHERE aid = ?';
+        db.query(updateSql, [licit, aid], (updErr, updResults) => {
+            if (updErr) {
+                return res.status(500).send("Adatbázis hiba a frissítéskor.");
+            }
+            res.status(200).send("Sikeres licit!");
+        });
     });
 });
 

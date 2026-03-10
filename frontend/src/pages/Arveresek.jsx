@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Button, Card, Row, Col, Alert, Spinner, Badge } from "react-bootstrap";
-import { FaClock, FaUsers, FaTrophy, FaGavel, FaSearch, FaBell, FaUser, FaHeart, FaShare, FaTag } from 'react-icons/fa';
+import { FaClock, FaUsers, FaHeart} from 'react-icons/fa';
 import backgroundimage from "../kepek/HomePageBackGround.png";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +23,7 @@ const Arveresek = () => {
           throw new Error(text || "Hiba történt");
         }
         const data = await res.json();
+        //console.log("Szerverről érkező adatok:", data);
         setItems(data);
       } catch (e) {
         setError(e?.message || "Nem sikerült betölteni az árveréseket.");
@@ -66,7 +67,7 @@ const Arveresek = () => {
               <h3 className="mb-4" style={{ color: "white"}}>Active Auctions</h3>
               <Row>
                 {items.map((auction) => (
-                  <Col lg={4} md={6} key={auction.arveresId} className="mb-4">
+                  <Col lg={4} md={6} key={auction.id} className="mb-4">
                     <Card className="auction-card h-100">
                       <div className="card-image-container">
                         <Card.Img variant="top" src={backgroundimage} />
@@ -79,10 +80,7 @@ const Arveresek = () => {
                       </div>
                       <Card.Body>
                         <Card.Title className="d-flex justify-content-between">
-                          {auction.title || `Auction #${auction.arveresId}`}
-                          <Button variant="link" className="p-0">
-                            <FaShare />
-                          </Button>
+                          {auction.title || `Auction #${auction.id}`}
                         </Card.Title>
                         <div className="d-flex justify-content-between align-items-center mb-3">
                           <div>
@@ -100,7 +98,7 @@ const Arveresek = () => {
                         <Button 
                           variant="outline-primary" 
                           className="w-100"
-                          onClick={() => navigate(`/arveresinfo/${auction.arveresId}`)}
+                          onClick={() => navigate(`/arveresinfo/${auction.id}`)}
                         >
                           Place Bid
                         </Button>

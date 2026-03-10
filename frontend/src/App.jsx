@@ -53,9 +53,8 @@ function App() {
         <Route path='/Login' element={<Login />}/>
         <Route path='/Registration' element={<Registration />}/>
         <Route path='/Profil' element={<Profil />}/>
-        <Route path="/Arveresek/:id" element={<PlaceBid />} />
+        <Route path="/arveresinfo/:id" element={<PlaceBid />} />
         <Route path="/test" element={<TestPage />} />
-
       </Routes>
     </BrowserRouter>
 

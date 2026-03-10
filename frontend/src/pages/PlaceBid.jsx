@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Modal, Button, Spinner, Alert } from 'react-bootstrap';
+import { Spinner, Alert } from 'react-bootstrap';
 import '../styles/PlaceBid.css';
 
 const PlaceBid = () => {
@@ -11,7 +11,6 @@ const PlaceBid = () => {
   const [error, setError] = useState("");
   const [bidLoading, setBidLoading] = useState(false);
 
-  // Note: Countdown timer dummy logic left intact, wire to real database timestamp if needed
   const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 45, seconds: 10 });
   const [showHistory, setShowHistory] = useState(false);
 
@@ -24,7 +23,7 @@ const PlaceBid = () => {
         
         if (data && data.length > 0) {
           setAuction(data[0]);
-          setBid(data[0].licit || 0); // Assuming your DB has a 'licit' column mapped
+          setBid(data[0].Licit);
         } else {
           setError("Árverés nem található.");
         }
@@ -41,11 +40,15 @@ const PlaceBid = () => {
     e.preventDefault();
     const amount = Number(e.target.bidAmount.value);
     
-    if (amount <= bid) {
-      alert("A licitnek nagyobbnak kell lennie az eddiginél!");
+    const tenPercent = bid * 0.10;
+    const requiredIncrement = Math.min(tenPercent, 50);
+    const minBid = bid + requiredIncrement;
+  
+    if (amount < minBid) {
+      alert(`A licitnek legalább $${minBid.toFixed(2)} értékűnek kell lennie! (Minimum emelés: $${requiredIncrement.toFixed(2)})`);
       return;
     }
-
+  
     setBidLoading(true);
     try {
       const res = await fetch("http://localhost:3000/arveresinfo/update", {
@@ -53,7 +56,7 @@ const PlaceBid = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ aid: id, licit: amount }),
       });
-
+  
       if (!res.ok) throw new Error("Hiba történt a licitálás során");
       
       setBid(amount);
@@ -82,7 +85,6 @@ const PlaceBid = () => {
           <span className="text-blue-600 font-bold uppercase tracking-wider text-sm">Live Auction #{id}</span>
           <h1 className="text-4xl font-extrabold text-gray-900 mt-2">Raktár Licit</h1>
           <p className="text-gray-500 mt-4 leading-relaxed">
-            {/* Display actual DB info here if available in arinfo table */}
             Árverés részletei és aktuális státusza.
           </p>
         </div>
@@ -106,10 +108,12 @@ const PlaceBid = () => {
         </form>
 
         <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 flex justify-between items-center">
+        <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 flex justify-between items-center">
           <div>
             <p className="text-gray-500 text-sm">Current Bid</p>
             <p className="text-3xl font-bold text-gray-900">${bid.toLocaleString()}</p>
           </div>
+        </div>
         </div>
       </div>
     </div>
