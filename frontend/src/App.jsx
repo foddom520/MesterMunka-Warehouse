@@ -12,7 +12,7 @@ import { FaGavel} from 'react-icons/fa';
 import { Container, Row, Col,  Button} from "react-bootstrap";
 import './styles/HomePage.css';
 import PlaceBid from './pages/PlaceBid.jsx';
-import TestPage from './pages/test.jsx';
+
 
 function App() {
   return (
@@ -39,7 +39,6 @@ function App() {
         <Nav.Link href="/Login">Bejelentkezés</Nav.Link>
         <Nav.Link href="/Registration">Regisztráció</Nav.Link>
         <Nav.Link href="/Profil">Profil</Nav.Link>
-        <Nav.Link href="/test">Test</Nav.Link>
       </Nav>
     </Container>
   </Navbar.Collapse>
@@ -54,8 +53,6 @@ function App() {
         <Route path='/Registration' element={<Registration />}/>
         <Route path='/Profil' element={<Profil />}/>
         <Route path="/Arveresek/:id" element={<PlaceBid />} />
-        <Route path="/test" element={<TestPage />} />
-
       </Routes>
     </BrowserRouter>
 
