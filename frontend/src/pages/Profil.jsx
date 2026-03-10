@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Container, Row, Col, Nav, Card, Form, Button, Alert, InputGroup } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileSettings() {
+  const navigate = useNavigate();
   const sections = useMemo(() => [
     { id: "profile", label: "Profile details" },
     { id: "security", label: "Security" },
@@ -10,22 +12,28 @@ export default function ProfileSettings() {
 
   const [activeId, setActiveId] = useState("profile");
 
-  // Keep track of the 'Original' username for the backend POST /p/mod requirement
-  const [originalUsername, setOriginalUsername] = useState("tesztfelhasznalo"); 
-  const [profile, setProfile] = useState({
-    username: "tesztfelhasznalo",
-    email: "teszt@example.com",
-  });
-
+  const [originalUsername, setOriginalUsername] = useState(""); 
+  const [profile, setProfile] = useState({ username: "", email: "" });
   const [profileMsg, setProfileMsg] = useState({ type: "", text: "" });
 
-  const [security, setSecurity] = useState({
-    newPassword: "",
-    confirmPassword: "",
-  });
-
+  const [security, setSecurity] = useState({ newPassword: "", confirmPassword: "" });
   const [showPw, setShowPw] = useState(false);
   const [securityMsg, setSecurityMsg] = useState({ type: "", text: "" });
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    
+    if (!loggedInUser) {
+      navigate("/login");
+    } else {
+      const userData = JSON.parse(loggedInUser);
+      setOriginalUsername(userData.Felhasznalonev);
+      setProfile({
+        username: userData.Felhasznalonev,
+        email: userData.Email
+      });
+    }
+  }, [navigate]);
 
   const saveProfile = async (e) => {
     e.preventDefault();
@@ -45,6 +53,11 @@ export default function ProfileSettings() {
       
       setProfileMsg({ type: "success", text: "Profil sikeresen frissítve!" });
       setOriginalUsername(profile.username);
+      
+      const currentUserData = JSON.parse(localStorage.getItem("user"));
+      currentUserData.Felhasznalonev = profile.username;
+      localStorage.setItem("user", JSON.stringify(currentUserData));
+
     } catch (err) {
       setProfileMsg({ type: "danger", text: err.message || "Hiba a profil mentésekor." });
     }
@@ -97,7 +110,6 @@ export default function ProfileSettings() {
       if (!res.ok) throw new Error(await res.text());
       
       alert("Fiók sikeresen törölve!");
-      // window.location.href = "/"; // redirect to home
     } catch (err) {
       alert(err.message || "Hiba a fiók törlésekor.");
     }
