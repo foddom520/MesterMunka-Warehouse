@@ -71,9 +71,6 @@ const Arveresek = () => {
                     <Card className="auction-card h-100">
                       <div className="card-image-container">
                         <Card.Img variant="top" src={backgroundimage} />
-                        <Button variant="light" className="wishlist-btn">
-                          <FaHeart />
-                        </Button>
                         <Badge bg="info" className="category-badge">
                           {auction.category || "N/A"}
                         </Badge>
