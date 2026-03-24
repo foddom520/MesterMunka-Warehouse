@@ -57,26 +57,7 @@ app.post('/register', async (req, res) => {
 //Jelszó módosítás
 
 app.patch('/p/jelszo', async (req, res) => {
-    const { /*Jelszo,*/ UjJelszo, Felhasznalonev } = req.body; //az eredeti jelszót nem használjuk jelenleg 
-
-   /* const sql = 'SELECT Jelszo FROM felhasznalo WHERE FelhasznaloNev = ?';
-
-    db.query(sql, [Felhasznalonev], async (err, results) => {
-        if (err) {
-            return res.status(500).send("Adatbázis hiba");
-        }
-
-        if (results.length === 0) {
-            return res.status(401).send('Invalid user'); //ha ez megjelenik, akkor nagy baj van
-        }
-        
-        const user = results[0];
-        const validPassword = await argon2.verify(user.Jelszo, Jelszo);
-        if (!validPassword) {
-            return res.status(401).send('Invalid current password'); //Megerősítjük hogy a profil tulajdonosa akar jelszót változtatni
-        }
-        */
-
+    const { UjJelszo, Felhasznalonev } = req.body;
         const hashedPassword = await argon2.hash(UjJelszo);//új jelszó hashelése
         const updateSql = 'UPDATE felhasznalo SET Jelszo = ? WHERE FelhasznaloNev = ?';//felülírja a régi jelszót
 

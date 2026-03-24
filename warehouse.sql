@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1:3307
--- Létrehozás ideje: 2026. Már 02. 09:08
--- Kiszolgáló verziója: 10.4.28-MariaDB
--- PHP verzió: 8.2.4
+-- Gép: 127.0.0.1
+-- Létrehozás ideje: 2026. Már 24. 09:33
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,6 +29,7 @@ USE `warehouse`;
 -- Tábla szerkezet ehhez a táblához `arinfo`
 --
 
+DROP TABLE IF EXISTS `arinfo`;
 CREATE TABLE `arinfo` (
   `ID` int(11) NOT NULL,
   `AID` int(11) NOT NULL,
@@ -42,23 +43,12 @@ CREATE TABLE `arinfo` (
 -- Tábla szerkezet ehhez a táblához `arveres`
 --
 
+DROP TABLE IF EXISTS `arveres`;
 CREATE TABLE `arveres` (
   `id` int(11) NOT NULL,
   `idopont` datetime NOT NULL,
   `JelentkezID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `arveres`
---
-
-INSERT INTO `arveres` (`id`, `idopont`, `JelentkezID`) VALUES
-(1, '2025-11-20 14:00:00', 0),
-(2, '2025-11-21 10:00:00', 0),
-(3, '2025-11-22 16:00:00', 0),
-(4, '2025-11-23 11:00:00', 0),
-(5, '2025-11-24 09:00:00', 0),
-(6, '2025-11-25 15:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -66,24 +56,15 @@ INSERT INTO `arveres` (`id`, `idopont`, `JelentkezID`) VALUES
 -- Tábla szerkezet ehhez a táblához `felhasznalo`
 --
 
+DROP TABLE IF EXISTS `felhasznalo`;
 CREATE TABLE `felhasznalo` (
   `id` int(11) NOT NULL,
   `FelhasznaloNev` varchar(16) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Jelszo` varchar(255) NOT NULL,
   `PFP` varchar(512) NOT NULL,
-  `Admin` tinyint(1) NOT NULL
+  `Admin` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `felhasznalo`
---
-
-INSERT INTO `felhasznalo` (`id`, `FelhasznaloNev`, `Email`, `Jelszo`, `PFP`, `Admin`) VALUES
-(1, 'kovacsbela', 'kovacs.bela@email.com', '$2b$10$abc123def456ghi789jkl', '', 0),
-(2, 'szaboanna', 'szabo.anna@email.com', '$2b$10$mno123pqr456stu789vwx', '', 0),
-(3, 'nagypeter', 'nagy.peter@email.com', '$2b$10$yzab123cde456fgh789ijk', '', 0),
-(4, 'kisseva', 'kiss.eva@email.com', '$2b$10$lmn123opq456rst789uvw', '', 0);
 
 -- --------------------------------------------------------
 
@@ -91,23 +72,12 @@ INSERT INTO `felhasznalo` (`id`, `FelhasznaloNev`, `Email`, `Jelszo`, `PFP`, `Ad
 -- Tábla szerkezet ehhez a táblához `fr-koto`
 --
 
+DROP TABLE IF EXISTS `fr-koto`;
 CREATE TABLE `fr-koto` (
   `fid` int(11) NOT NULL,
   `rid` int(11) NOT NULL,
   `aid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `fr-koto`
---
-
-INSERT INTO `fr-koto` (`fid`, `rid`, `aid`) VALUES
-(1, 1, 1),
-(1, 2, 2),
-(2, 3, 3),
-(2, 6, 6),
-(3, 4, 4),
-(4, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -115,6 +85,7 @@ INSERT INTO `fr-koto` (`fid`, `rid`, `aid`) VALUES
 -- Tábla szerkezet ehhez a táblához `raktar`
 --
 
+DROP TABLE IF EXISTS `raktar`;
 CREATE TABLE `raktar` (
   `id` int(11) NOT NULL,
   `foglalt` tinyint(1) NOT NULL,
@@ -123,18 +94,6 @@ CREATE TABLE `raktar` (
   `Hazszam` int(11) NOT NULL,
   `Utca` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `raktar`
---
-
-INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`, `Iranyitoszam`, `Hazszam`, `Utca`) VALUES
-(1, 1, '2025-12-31', 1134, 45, 'Váci út'),
-(2, 0, '2025-11-30', 1052, 12, 'Petőfi Sándor utca'),
-(3, 1, '2025-10-15', 6720, 5, 'Dóm tér'),
-(4, 0, '2025-09-20', 4024, 22, 'Kossuth utca'),
-(5, 1, '2025-08-25', 7621, 8, 'Király utca'),
-(6, 0, '2025-07-30', 9021, 10, 'Baross Gábor út');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -190,19 +149,19 @@ ALTER TABLE `arinfo`
 -- AUTO_INCREMENT a táblához `arveres`
 --
 ALTER TABLE `arveres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalo`
 --
 ALTER TABLE `felhasznalo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `raktar`
 --
 ALTER TABLE `raktar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Megkötések a kiírt táblákhoz
