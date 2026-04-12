@@ -1,181 +1,34 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 24. 09:33
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Adatbázis: `warehouse`
---
-CREATE DATABASE IF NOT EXISTS `warehouse` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
 USE `warehouse`;
 
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `arinfo`
---
-
 DROP TABLE IF EXISTS `arinfo`;
-CREATE TABLE `arinfo` (
-  `ID` int(11) NOT NULL,
-  `AID` int(11) NOT NULL,
-  `Licit` int(11) NOT NULL,
-  `kepUrl` varchar(1024) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `arveres`
---
-
 DROP TABLE IF EXISTS `arveres`;
-CREATE TABLE `arveres` (
-  `id` int(11) NOT NULL,
-  `idopont` datetime NOT NULL,
-  `JelentkezID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `felhasznalo`
---
-
-DROP TABLE IF EXISTS `felhasznalo`;
-CREATE TABLE `felhasznalo` (
-  `id` int(11) NOT NULL,
-  `FelhasznaloNev` varchar(16) NOT NULL,
-  `Email` varchar(255) NOT NULL,
-  `Jelszo` varchar(255) NOT NULL,
-  `PFP` varchar(512) NOT NULL,
-  `Admin` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `fr-koto`
---
-
-DROP TABLE IF EXISTS `fr-koto`;
-CREATE TABLE `fr-koto` (
-  `fid` int(11) NOT NULL,
-  `rid` int(11) NOT NULL,
-  `aid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `raktar`
---
-
 DROP TABLE IF EXISTS `raktar`;
+
 CREATE TABLE `raktar` (
-  `id` int(11) NOT NULL,
-  `foglalt` tinyint(1) NOT NULL,
-  `hatarido` date NOT NULL,
-  `Iranyitoszam` int(11) NOT NULL,
-  `Hazszam` int(11) NOT NULL,
-  `Utca` varchar(64) NOT NULL
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `raktarSzama` int(11) NOT NULL, -- This matches row.raktarSzama in React
+  `foglalt` tinyint(1) DEFAULT 0,
+  `hatarido` date DEFAULT NULL,
+  `Iranyitoszam` int(11) DEFAULT NULL,
+  `Utca` varchar(255) DEFAULT NULL,
+  `Hazszam` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
---
--- Indexek a kiírt táblákhoz
---
+-- Re-creating other tables to maintain foreign keys
+CREATE TABLE `arveres` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `idopont` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
---
--- A tábla indexei `arinfo`
---
-ALTER TABLE `arinfo`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `AID` (`AID`);
-
---
--- A tábla indexei `arveres`
---
-ALTER TABLE `arveres`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `JelentkezID` (`JelentkezID`);
-
---
--- A tábla indexei `felhasznalo`
---
-ALTER TABLE `felhasznalo`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `Email` (`Email`),
-  ADD UNIQUE KEY `felhasznalo` (`FelhasznaloNev`);
-
---
--- A tábla indexei `fr-koto`
---
-ALTER TABLE `fr-koto`
-  ADD PRIMARY KEY (`fid`,`rid`,`aid`),
-  ADD KEY `FK_frk_raktar` (`rid`),
-  ADD KEY `FK_frk_arveres` (`aid`);
-
---
--- A tábla indexei `raktar`
---
-ALTER TABLE `raktar`
-  ADD PRIMARY KEY (`id`);
-
---
--- A kiírt táblák AUTO_INCREMENT értéke
---
-
---
--- AUTO_INCREMENT a táblához `arinfo`
---
-ALTER TABLE `arinfo`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `arveres`
---
-ALTER TABLE `arveres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `felhasznalo`
---
-ALTER TABLE `felhasznalo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `raktar`
---
-ALTER TABLE `raktar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Megkötések a kiírt táblákhoz
---
-
---
--- Megkötések a táblához `fr-koto`
---
-ALTER TABLE `fr-koto`
-  ADD CONSTRAINT `fr-koto_ibfk_2` FOREIGN KEY (`fid`) REFERENCES `felhasznalo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fr-koto_ibfk_3` FOREIGN KEY (`rid`) REFERENCES `raktar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fr-koto_ibfk_4` FOREIGN KEY (`aid`) REFERENCES `arveres` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+CREATE TABLE `arinfo` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `AID` int(11) NOT NULL,
+  `Licit` int(11) DEFAULT 0,
+  `Kep_URL` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  CONSTRAINT `FK_arinfo_arveres` FOREIGN KEY (`AID`) REFERENCES `arveres` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Card, Alert, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,42 +24,41 @@ function Login() {
         body: JSON.stringify({ Email: email, Jelszo: password }),
       });
 
-      let data = null;
-      const contentType = res.headers.get("content-type") || "";
-      if (contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        const text = await res.text();
-        data = { message: text };
-      }
+      const data = await res.json();
 
       if (!res.ok) {
-        setError(data?.message || "Hiba történt a bejelentkezésnél.");
-        return;
+        throw new Error(data?.message || "Helytelen email vagy jelszó!");
       }
 
-      setSuccess(data?.message || "Sikeres bejelentkezés!");
+      // Elmentjük a felhasználót, hogy a Profil és a Navigáció lássa
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setSuccess("Sikeres bejelentkezés! Átirányítás...");
+      
+      setTimeout(() => {
+        navigate("/");
+        window.location.reload(); 
+      }, 1500);
+
     } catch (err) {
-      setError("Nem sikerült csatlakozni a szerverhez. (Backend fut?)");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <>
-    <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Row>
-        <Col>
-          <Card style={{ width: "22rem" }} className="shadow">
+    <Container className="mt-5">
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <Card className="shadow-sm">
             <Card.Body>
-              <Card.Title className="text-center mb-4">Log In</Card.Title>
-
+              <h2 className="text-center mb-4">Bejelentkezés</h2>
+              
               {error && <Alert variant="danger">{error}</Alert>}
               {success && <Alert variant="success">{success}</Alert>}
 
               <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3">
                   <Form.Label>Email cím</Form.Label>
                   <Form.Control
                     type="email"
@@ -69,7 +69,7 @@ function Login() {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3">
                   <Form.Label>Jelszó</Form.Label>
                   <Form.Control
                     type="password"
@@ -82,21 +82,20 @@ function Login() {
 
                 <Button variant="dark" type="submit" className="w-100" disabled={loading}>
                   {loading ? (
-                    <>
-                      <Spinner size="sm" className="me-2" />
-                      Bejelentkezés...
-                    </>
+                    <><Spinner size="sm" className="me-2" />Bejelentkezés...</>
                   ) : (
                     "Bejelentkezés"
                   )}
                 </Button>
               </Form>
+              <div className="text-center mt-3">
+                <small>Nincs még fiókod? <a href="/registration">Regisztráció</a></small>
+              </div>
             </Card.Body>
           </Card>
         </Col>
       </Row>
     </Container>
-    </>
   );
 }
 

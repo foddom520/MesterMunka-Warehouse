@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 export default function ProfileSettings() {
   const navigate = useNavigate();
   const sections = useMemo(() => [
-    { id: "profile", label: "Profile details" },
-    { id: "security", label: "Security" },
-    { id: "danger", label: "Danger zone" },
+    { id: "profile", label: "Profil adatai" },
+    { id: "security", label: "Biztonság" },
+    { id: "danger", label: "Fiok Törlés" },
   ], []);
 
   const [activeId, setActiveId] = useState("profile");
@@ -198,7 +198,6 @@ export default function ProfileSettings() {
           <section id="danger">
             <Card className="mb-4 border-danger">
               <Card.Body>
-                <Card.Title className="text-danger">Veszélyzóna</Card.Title>
                 <Button variant="danger" onClick={deleteAccount}>Fiók törlése</Button>
               </Card.Body>
             </Card>

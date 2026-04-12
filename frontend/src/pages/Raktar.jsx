@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Card, Alert, Spinner, Badge } from "react-bootstrap";
-import { FaMapMarkerAlt } from "react-icons/fa"; // Optional: Added an icon for the address
+import { FaMapMarkerAlt, FaCalendarAlt, FaWarehouse } from "react-icons/fa";
 
 const Raktar = () => {
   const [items, setItems] = useState([]);
@@ -18,7 +18,7 @@ const Raktar = () => {
 
         if (!res.ok) {
           const text = await res.text();
-          throw new Error(text || "Server error");
+          throw new Error(text || "Hiba történt a szerverrel való kommunikáció során.");
         }
 
         const data = await res.json();
@@ -34,73 +34,74 @@ const Raktar = () => {
   }, []);
 
   const formatDate = (value) => {
-    if (!value) return "-";
+    if (!value) return "Nincs megadva";
     const d = new Date(value);
     if (Number.isNaN(d.getTime())) return String(value);
     return d.toLocaleDateString("hu-HU");
   };
 
   return (
-    <>
-      <div className="text-center py-5 background-Image-custom">
-        <Container>
-          <h1 className="mb-3" style={{ color: "white" }}>Raktárak</h1>
-          <p className="lead" style={{ color: "white" }}>
-             Böngésszen raktáraink között
-          </p>
-
-          {loading && (
-            <div className="d-flex justify-content-center my-4">
-              <Spinner variant="light" animation="border" />
-            </div>
-          )}
-
-          {error && <Alert variant="danger">{error}</Alert>}
-
-          {!loading && !error && items.length === 0 && (
-            <Alert variant="secondary">Nincs megjeleníthető raktár.</Alert>
-          )}
-
-          <Row className="g-4 mt-1">
-            {items.map((row, idx) => {
-              const raktarSzama = row["raktár száma"];
-              const foglalt = row["foglaltság"];
-              const hatarido = row["határidő"];
-              
-              const iranyitoszam = row.Iranyitoszam;
-              const utca = row.Utca;
-              const hazszam = row.Hazszam;
-
-              return (
-                <Col key={raktarSzama ?? idx} xs={12} sm={6} md={4} lg={3}>
-                  <Card className="h-100 shadow">
-                    <Card.Body className="d-flex flex-column text-start">
-                      <Card.Title className="d-flex justify-content-between align-items-center mb-3">
-                        <span>Raktár #{raktarSzama}</span>
-                        <Badge bg={foglalt ? "danger" : "success"}>
-                          {foglalt ? "Foglalt" : "Szabad"}
-                        </Badge>
-                      </Card.Title>
-                      
-                      <Card.Text className="mb-2 text-muted">
-                        <FaMapMarkerAlt className="me-2" />
-                        {iranyitoszam}, {utca} {hazszam}.
-                      </Card.Text>
-
-                      <hr className="my-2"/>
-
-                      <Card.Text className="mt-2 mb-0">
-                        <b>Határidő:</b> {formatDate(hatarido)}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              );
-            })}
-          </Row>
-        </Container>
+    <Container className="py-5">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="fw-bold">Raktárkészlet Áttekintés</h2>
+        <Badge bg="dark" className="p-2">Összesen: {items.length} egység</Badge>
       </div>
-    </>
+
+      {loading && (
+        <div className="text-center my-5">
+          <Spinner animation="border" variant="primary" />
+          <p className="mt-2">Adatok betöltése...</p>
+        </div>
+      )}
+
+      {error && <Alert variant="danger">{error}</Alert>}
+
+      {!loading && !error && items.length === 0 && (
+        <Alert variant="info">Jelenleg nincs rögzített raktár az adatbázisban.</Alert>
+      )}
+
+      <Row>
+        {!loading && items.map((row, idx) => {
+          // A változókat a frissített SQL oszlopnevekhez igazítjuk
+          const raktarSzama = row.raktarSzama; 
+          const foglalt = row.foglalt;
+          const hatarido = row.hatarido;
+          const iranyitoszam = row.Iranyitoszam;
+          const utca = row.Utca;
+          const hazszam = row.Hazszam;
+
+          return (
+            <Col key={row.id || idx} xs={12} sm={6} md={4} lg={3} className="mb-4">
+              <Card className="h-100 shadow-sm border-0">
+                <Card.Body className="d-flex flex-column">
+                  <div className="d-flex justify-content-between align-items-start mb-3">
+                    <div className="d-flex align-items-center">
+                      <FaWarehouse className="text-primary me-2" />
+                      <h5 className="mb-0">Raktár #{raktarSzama}</h5>
+                    </div>
+                    <Badge bg={foglalt ? "danger" : "success"}>
+                      {foglalt ? "Foglalt" : "Szabad"}
+                    </Badge>
+                  </div>
+
+                  <Card.Text className="text-muted small flex-grow-1">
+                    <FaMapMarkerAlt className="me-1" />
+                    {iranyitoszam} {utca} {hazszam}.
+                  </Card.Text>
+
+                  <hr className="my-2 opacity-25" />
+
+                  <Card.Text className="small mb-0">
+                    <FaCalendarAlt className="me-2 text-secondary" />
+                    <strong>Határidő:</strong> {formatDate(hatarido)}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          );
+        })}
+      </Row>
+    </Container>
   );
 };
 

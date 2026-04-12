@@ -1,123 +1,54 @@
--- --------------------------------------------------------
--- 1. RAKTAR TÁBLA BŐVÍTÉSE (7-től 30-ig)
--- --------------------------------------------------------
-INSERT INTO `raktar` (`id`, `foglalt`, `hatarido`, `Iranyitoszam`, `Hazszam`, `Utca`) VALUES
-(7, 0, '2026-03-10', 1111, 42, 'Bartók Béla út'),
-(8, 1, '2026-04-12', 1145, 15, 'Thököly út'),
-(9, 0, '2026-02-28', 1085, 33, 'József körút'),
-(10, 1, '2026-05-01', 1024, 7, 'Margit körút'),
-(11, 0, '2026-06-15', 3525, 19, 'Széchenyi István utca'),
-(12, 1, '2026-07-20', 4025, 50, 'Piac utca'),
-(13, 0, '2026-01-18', 6722, 11, 'Tisza Lajos körút'),
-(14, 0, '2026-08-05', 7622, 24, 'Zsolnay Vilmos utca'),
-(15, 1, '2026-09-10', 9022, 3, 'Árpád út'),
-(16, 0, '2026-10-22', 8000, 14, 'Fő utca'),
-(17, 1, '2026-11-30', 6000, 88, 'Kecskeméti út'),
-(18, 0, '2026-12-05', 5000, 2, 'Szolnok Ispán körút'),
-(19, 1, '2026-03-25', 1092, 45, 'Ráday utca'),
-(20, 0, '2026-04-18', 1138, 9, 'Váci út'),
-(21, 1, '2026-05-22', 1051, 16, 'Sas utca'),
-(22, 0, '2026-06-30', 1061, 21, 'Andrássy út'),
-(23, 1, '2026-07-15', 1075, 34, 'Király utca'),
-(24, 0, '2026-08-20', 1122, 5, 'Városmajor utca'),
-(25, 1, '2026-09-05', 1033, 77, 'Flórián tér'),
-(26, 0, '2026-10-10', 1042, 12, 'Árpád út'),
-(27, 1, '2026-11-15', 1152, 6, 'Illyés Gyula utca'),
-(28, 0, '2026-12-20', 1163, 18, 'Veres Péter út'),
-(29, 1, '2027-01-10', 1173, 22, 'Pesti út'),
-(30, 0, '2027-02-14', 1181, 40, 'Üllői út');
+USE `warehouse`;
 
--- --------------------------------------------------------
--- 2. ARVERES TÁBLA BŐVÍTÉSE (7-től 30-ig)
--- --------------------------------------------------------
-INSERT INTO `arveres` (`id`, `idopont`, `JelentkezID`) VALUES
-(7, '2025-11-26 10:00:00', 0),
-(8, '2025-11-27 12:30:00', 0),
-(9, '2025-11-28 14:00:00', 0),
-(10, '2025-11-29 16:45:00', 0),
-(11, '2025-11-30 09:00:00', 0),
-(12, '2025-12-01 11:15:00', 0),
-(13, '2025-12-02 13:00:00', 0),
-(14, '2025-12-03 15:30:00', 0),
-(15, '2025-12-04 17:00:00', 0),
-(16, '2025-12-05 08:30:00', 0),
-(17, '2025-12-06 10:45:00', 0),
-(18, '2025-12-07 14:20:00', 0),
-(19, '2025-12-08 16:00:00', 0),
-(20, '2025-12-09 09:15:00', 0),
-(21, '2025-12-10 11:30:00', 0),
-(22, '2025-12-11 13:45:00', 0),
-(23, '2025-12-12 15:00:00', 0),
-(24, '2025-12-13 10:00:00', 0),
-(25, '2025-12-14 12:00:00', 0),
-(26, '2025-12-15 14:30:00', 0),
-(27, '2025-12-16 16:15:00', 0),
-(28, '2025-12-17 09:45:00', 0),
-(29, '2025-12-18 11:00:00', 0),
-(30, '2025-12-19 13:30:00', 0);
+INSERT INTO `raktar` (`raktarSzama`, `foglalt`, `hatarido`, `Iranyitoszam`, `Utca`, `Hazszam`) VALUES
+(101, 1, '2026-03-10', 1114, 'Vásárhelyi Pál utca', '12'), (102, 0, '2026-07-04', 1052, 'Váci utca', '5'),
+(103, 0, '2026-06-20', 4024, 'Piac utca', '21'), (104, 1, '2026-03-01', 6720, 'Kárász utca', '10'),
+(105, 0, '2026-05-12', 1111, 'Bartók Béla út', '44'), (106, 1, '2026-02-15', 1085, 'József körút', '10'),
+(107, 0, '2026-07-01', 3525, 'Széchenyi István utca', '2'), (108, 1, '2026-04-20', 9022, 'Dunakapu tér', '8'),
+(109, 0, '2026-06-30', 7621, 'Király utca', '15'), (110, 0, '2026-07-04', 6000, 'Kossuth tér', '1'),
+(111, 1, '2026-01-10', 1033, 'Szentendrei út', '102'), (112, 0, '2026-05-25', 1134, 'Váci út', '33'),
+(113, 1, '2026-03-22', 1146, 'Hermina út', '57'), (114, 0, '2026-06-12', 1061, 'Andrássy út', '10'),
+(115, 0, '2026-07-03', 1073, 'Erzsébet körút', '24'), (116, 1, '2026-02-28', 1092, 'Ráday utca', '11'),
+(117, 0, '2026-05-05', 1122, 'Városmajor utca', '4'), (118, 0, '2026-06-18', 1014, 'Úri utca', '19'),
+(119, 1, '2026-04-01', 1055, 'Kossuth Lajos tér', '1'), (120, 0, '2026-07-04', 1117, 'Október huszonharmadika utca', '8'),
+(121, 0, '2026-06-25', 1027, 'Fő utca', '66'), (122, 1, '2026-01-30', 1088, 'Rákóczi út', '5'),
+(123, 0, '2026-05-15', 1143, 'Hungária körút', '120'), (124, 0, '2026-07-02', 1138, 'Váci út', '178'),
+(125, 1, '2026-03-15', 1036, 'Lajos utca', '48'), (126, 0, '2026-06-05', 1065, 'Bajcsy-Zsilinszky út', '15'),
+(127, 0, '2026-07-04', 1054, 'Szabadság tér', '7'), (128, 1, '2026-02-10', 1075, 'Wesselényi utca', '18'),
+(129, 0, '2026-05-20', 1094, 'Ferenc körút', '2'), (130, 0, '2026-07-01', 1118, 'Rétköz utca', '5');
 
--- --------------------------------------------------------
--- 3. ARINFO TÁBLA FELTÖLTÉSE (1-től 30-ig)
--- --------------------------------------------------------
--- Mivel ez a tábla teljesen üres volt, feltöltjük mind a 30 árveréshez.
-INSERT INTO `arinfo` (`ID`, `AID`, `Licit`, `kepUrl`) VALUES
-(1, 1, 15000, 'https://picsum.photos/600/600?random=1'),
-(2, 2, 25000, 'https://picsum.photos/600/600?random=2'),
-(3, 3, 10000, 'https://picsum.photos/600/600?random=3'),
-(4, 4, 45000, 'https://picsum.photos/600/600?random=4'),
-(5, 5, 8000, 'https://picsum.photos/600/600?random=5'),
-(6, 6, 12500, 'https://picsum.photos/600/600?random=6'),
-(7, 7, 30000, 'https://picsum.photos/600/600?random=7'),
-(8, 8, 18000, 'https://picsum.photos/600/600?random=8'),
-(9, 9, 22000, 'https://picsum.photos/600/600?random=9'),
-(10, 10, 50000, 'https://picsum.photos/600/600?random=10'),
-(11, 11, 65000, 'https://picsum.photos/600/600?random=11'),
-(12, 12, 11000, 'https://picsum.photos/600/600?random=12'),
-(13, 13, 34000, 'https://picsum.photos/600/600?random=13'),
-(14, 14, 27500, 'https://picsum.photos/600/600?random=14'),
-(15, 15, 95000, 'https://picsum.photos/600/600?random=15'),
-(16, 16, 14000, 'https://picsum.photos/600/600?random=16'),
-(17, 17, 41000, 'https://picsum.photos/600/600?random=17'),
-(18, 18, 88000, 'https://picsum.photos/600/600?random=18'),
-(19, 19, 16500, 'https://picsum.photos/600/600?random=19'),
-(20, 20, 21000, 'https://picsum.photos/600/600?random=20'),
-(21, 21, 55000, 'https://picsum.photos/600/600?random=21'),
-(22, 22, 38000, 'https://picsum.photos/600/600?random=22'),
-(23, 23, 72000, 'https://picsum.photos/600/600?random=23'),
-(24, 24, 19500, 'https://picsum.photos/600/600?random=24'),
-(25, 25, 29000, 'https://picsum.photos/600/600?random=25'),
-(26, 26, 46000, 'https://picsum.photos/600/600?random=26'),
-(27, 27, 105000, 'https://picsum.photos/600/600?random=27'),
-(28, 28, 13000, 'https://picsum.photos/600/600?random=28'),
-(29, 29, 31000, 'https://picsum.photos/600/600?random=29'),
-(30, 30, 68000, 'https://picsum.photos/600/600?random=30');
+-- 2. INSERT 30 AUCTIONS (15 Expired, 15 Active/Ending July 4)
+INSERT INTO `arveres` (`title`, `category`, `idopont`) VALUES
+('Antik Bútor Gyűjtemény', 'Bútor', '2026-03-10 10:00:00'), ('Elektronikai Csomag', 'Tech', '2026-05-15 18:30:00'),
+('Ipari Szerszámok', 'Ipari', '2026-07-04 12:00:00'), ('Retró Játékgyűjtemény', 'Hobbi', '2026-01-20 14:00:00'),
+('Konyhai Gépek', 'Háztartás', '2026-03-05 09:00:00'), ('Irodai Felszerelés', 'Iroda', '2026-06-10 16:00:00'),
+('Kerékpárok és Alkatrészek', 'Sport', '2026-07-04 20:00:00'), ('Kerti Bútorok', 'Kert', '2026-02-28 11:30:00'),
+('Műszaki Könyvcsomag', 'Könyv', '2026-06-25 15:00:00'), ('Festőállványok és Kellékek', 'Művészet', '2026-07-04 10:00:00'),
+('Horgászfelszerelés', 'Hobbi', '2026-03-15 08:00:00'), ('Vintage Ruházat', 'Divat', '2026-05-20 17:00:00'),
+('Építőanyag Maradék', 'Építkezés', '2026-07-04 15:30:00'), ('Számítógép Alkatrészek', 'Tech', '2026-02-12 21:00:00'),
+('Autóalkatrészek', 'Jármű', '2026-06-01 13:00:00'), ('Hangszerek', 'Zene', '2026-07-03 19:00:00'),
+('Fitnesz Gépek', 'Sport', '2026-01-05 10:00:00'), ('Képregény Gyűjtemény', 'Hobbi', '2026-06-30 22:00:00'),
+('Napelem Panelek', 'Energia', '2026-07-04 09:00:00'), ('Téli Gumi Szettek', 'Jármű', '2026-03-25 11:00:00'),
+('Okosotthon Eszközök', 'Tech', '2026-05-28 20:00:00'), ('Bőrgyógyászati Eszközök', 'Orvosi', '2026-07-04 14:00:00'),
+('Kávégépek', 'Gasztró', '2026-02-01 07:00:00'), ('Fényképezőgépek', 'Tech', '2026-06-15 12:00:00'),
+('Ékszerek és Órák', 'Divat', '2026-07-04 23:59:00'), ('Varrógépek', 'Hobbi', '2026-03-18 16:00:00'),
+('Szerszámos Ládák', 'Ipari', '2026-05-05 10:00:00'), ('Szobanövények', 'Kert', '2026-07-01 11:00:00'),
+('Kültéri Világítás', 'Villamosság', '2026-03-30 20:00:00'), ('Lego Készletek', 'Játék', '2026-07-04 18:00:00');
 
--- --------------------------------------------------------
--- 4. FR-KOTO TÁBLA BŐVÍTÉSE (7-től 30-ig)
--- --------------------------------------------------------
--- Az első 6 már benne van, hozzáadjuk a maradékot ciklikusan szétosztva a 4 felhasználó között.
-INSERT INTO `fr-koto` (`fid`, `rid`, `aid`) VALUES
-(3, 7, 7),
-(4, 8, 8),
-(1, 9, 9),
-(2, 10, 10),
-(3, 11, 11),
-(4, 12, 12),
-(1, 13, 13),
-(2, 14, 14),
-(3, 15, 15),
-(4, 16, 16),
-(1, 17, 17),
-(2, 18, 18),
-(3, 19, 19),
-(4, 20, 20),
-(1, 21, 21),
-(2, 22, 22),
-(3, 23, 23),
-(4, 24, 24),
-(1, 25, 25),
-(2, 26, 26),
-(3, 27, 27),
-(4, 28, 28),
-(1, 29, 29),
-(2, 30, 30);
+-- 3. INSERT 30 BID INFO (Linking each auction to a starting price and image)
+INSERT INTO `arinfo` (`AID`, `Licit`, `Kep_URL`) VALUES
+(1, 150000, 'https://picsum.photos/600/400?random=1'), (2, 85000, 'https://picsum.photos/600/400?random=2'),
+(3, 420000, 'https://picsum.photos/600/400?random=3'), (4, 32000, 'https://picsum.photos/600/400?random=4'),
+(5, 55000, 'https://picsum.photos/600/400?random=5'), (6, 120000, 'https://picsum.photos/600/400?random=6'),
+(7, 45000, 'https://picsum.photos/600/400?random=7'), (8, 95000, 'https://picsum.photos/600/400?random=8'),
+(9, 12000, 'https://picsum.photos/600/400?random=9'), (10, 38000, 'https://picsum.photos/600/400?random=10'),
+(11, 25000, 'https://picsum.photos/600/400?random=11'), (12, 65000, 'https://picsum.photos/600/400?random=12'),
+(13, 180000, 'https://picsum.photos/600/400?random=13'), (14, 72000, 'https://picsum.photos/600/400?random=14'),
+(15, 110000, 'https://picsum.photos/600/400?random=15'), (16, 210000, 'https://picsum.photos/600/400?random=16'),
+(17, 88000, 'https://picsum.photos/600/400?random=17'), (18, 41000, 'https://picsum.photos/600/400?random=18'),
+(19, 950000, 'https://picsum.photos/600/400?random=19'), (20, 52000, 'https://picsum.photos/600/400?random=20'),
+(21, 67000, 'https://picsum.photos/600/400?random=21'), (22, 340000, 'https://picsum.photos/600/400?random=22'),
+(23, 48000, 'https://picsum.photos/600/400?random=23'), (24, 155000, 'https://picsum.photos/600/400?random=24'),
+(25, 250000, 'https://picsum.photos/600/400?random=25'), (26, 31000, 'https://picsum.photos/600/400?random=26'),
+(27, 46000, 'https://picsum.photos/600/400?random=27'), (28, 14000, 'https://picsum.photos/600/400?random=28'),
+(29, 29000, 'https://picsum.photos/600/400?random=29'), (30, 82000, 'https://picsum.photos/600/400?random=30');

@@ -13,7 +13,7 @@ const db = mysql.createPool({
     user: 'root' || process.env.DB_User,
     password: '' || process.env.DB_Password,
     database: 'warehouse' || process.env.DB_Name ,
-    port: 3307 || process.env.DB_Port || process.env.DB_Port2
+    port: 3306 || process.env.DB_Port || process.env.DB_Port2
 });
 
 //Bejelentkezés
@@ -32,7 +32,7 @@ app.post('/login', async (req, res) => {
         if (!validPassword) {
             return res.status(401).send('Invalid email or password');
         }
-        res.status(200).send('Sikeres bejelentkezés');
+        res.status(200).json({message: 'Sikeres bejelentkezés', user: user});
     });
 });
 
