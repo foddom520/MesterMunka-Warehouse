@@ -185,6 +185,68 @@ app.patch('/arveresinfo/update', (req, res) => {
     });
 });
 
+app.delete('/arveres/:id', (req, res) => {
+    const id = req.params.id;
+
+    // First delete from arinfo (because of foreign key)
+    const sqlInfo = 'DELETE FROM arinfo WHERE aid = ?';
+    db.query(sqlInfo, [id], (err) => {
+        if (err) return res.status(500).send("Hiba az arinfo törlésekor");
+
+        // Then delete from arveres
+        const sqlArveres = 'DELETE FROM arveres WHERE id = ?';
+        db.query(sqlArveres, [id], (err, result) => {
+            if (err) return res.status(500).send("Hiba az árverés törlésekor");
+            res.status(200).send("Sikeres törlés");
+        });
+    });
+});
+
+app.post('/arveres/add', (req, res) => {
+    const { title, category, idopont, Licit, Kep_URL } = req.body;
+
+    // Start a transaction because we are inserting into two tables
+    db.getConnection((err, connection) => {
+        if (err) return res.status(500).send("Csatlakozási hiba");
+
+        connection.beginTransaction((err) => {
+            if (err) return res.status(500).send("Tranzakció hiba");
+
+            // 1. Insert into arveres
+            const sqlArveres = 'INSERT INTO arveres (title, category, idopont) VALUES (?, ?, ?)';
+            connection.query(sqlArveres, [title, category, idopont], (err, result) => {
+                if (err) {
+                    return connection.rollback(() => {
+                        res.status(500).send("Hiba az árverés létrehozásakor");
+                    });
+                }
+
+                const newAuctionId = result.insertId;
+
+                // 2. Insert into arinfo using the new ID
+                const sqlInfo = 'INSERT INTO arinfo (AID, Licit, Kep_URL) VALUES (?, ?, ?)';
+                connection.query(sqlInfo, [newAuctionId, Licit, Kep_URL], (err) => {
+                    if (err) {
+                        return connection.rollback(() => {
+                            res.status(500).send("Hiba az árinformációk mentésekor");
+                        });
+                    }
+
+                    connection.commit((err) => {
+                        if (err) {
+                            return connection.rollback(() => {
+                                res.status(500).send("Commit hiba");
+                            });
+                        }
+                        res.status(200).send("Árverés sikeresen hozzáadva!");
+                    });
+                });
+            });
+        });
+        connection.release();
+    });
+});
+
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
